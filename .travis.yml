@@ -1,0 +1,19 @@
+os:
+  - linux
+
+language: c
+
+compiler:
+  - gcc
+
+install:
+  - sudo apt-get update
+  - sudo apt-get install cmake libgtk2.0-dev
+  - cd tetris/clean
+  - mkdir build
+  - cd build
+  - cmake ..
+
+script:
+  - cd tetris/test/KWstyle
+  - bash run_kwstyle.sh
