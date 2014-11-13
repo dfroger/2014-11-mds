@@ -55,7 +55,7 @@ void test_set_grid_to_zero()
   }
 }
 
-bool testSamePositionsInGrid()
+void testSamePositionsInGrid()
 {
   PositionInGrid left = {5,4};
   PositionInGrid right = {1,2};
@@ -94,13 +94,14 @@ void testSameTetraminos()
 //////////////////////////////////////////////////////////////////////////////
 
 
-void testPieceCopyToLeft()
+void testPieceMoveToLeft()
 {
-  Piece rightPiece = {{5,3},TETROMINO_I,ANGLE_0};
   Piece expectedLeftPiece = {{5,2},TETROMINO_I,ANGLE_0};
-  Piece actualLeftPiece;
-  pieceCopyToLeft(rightPiece,&actualLeftPiece);
-  CU_ASSERT( samePieces(actualLeftPiece,expectedLeftPiece) );
+  
+  Piece piece = {{5,3},TETROMINO_I,ANGLE_0};
+  pieceMoveToLeft(&piece);
+  
+  CU_ASSERT( samePieces(piece,expectedLeftPiece) );
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -190,7 +191,7 @@ int main()
       CU_cleanup_registry();
       return CU_get_error();
    }
-   if ( ( CU_add_test(suitePiece, "testPieceCopyToLeft()", testPieceCopyToLeft) == NULL ) )
+   if ( ( CU_add_test(suitePiece, "testPieceMoveToLeft()", testPieceMoveToLeft) == NULL ) )
    {
       CU_cleanup_registry();
       return CU_get_error();

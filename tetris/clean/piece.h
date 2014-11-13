@@ -17,7 +17,7 @@ struct piece
   size_t angle;
 };
 
-void pieceCopyToLeft(Piece const original, Piece * copy);
+void pieceMoveToLeft(Piece* toBeMoved);
 bool samePieces(Piece const left, Piece const right);
 
 #endif

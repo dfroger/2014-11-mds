@@ -2,6 +2,7 @@
 #define TETRIS_TETROMINO_H
 
 #include <stdbool.h>
+#include <stddef.h>
 
 #include "rgb_color.h"
 #include "positionInGrid.h"
@@ -19,6 +20,7 @@ struct tetromino
 typedef struct tetromino Tetromino;
 
 extern Tetromino const TETROMINO_I;
+extern Tetromino const TETROMINO_O;
 
 enum RotationAngle { ANGLE_0=0, ANGLE_90=1, ANGLE_180=2, ANGLE_270=3 };
 

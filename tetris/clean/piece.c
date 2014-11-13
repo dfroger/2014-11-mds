@@ -1,10 +1,14 @@
 #include "piece.h"
 
-void pieceCopyToLeft(Piece const original, Piece * copy)
+void pieceMoveToLeft(Piece* toBeMoved)
 {
+  toBeMoved->topLeftCorner.columnIndex--;
 }
 
 bool samePieces(Piece const left, Piece const right)
 {
-  return left.angle == right.angle;
+  return samePositionsInGrid(left.topLeftCorner,right.topLeftCorner) &&
+         sameTetrominos(left.tetromino,right.tetromino) &&
+         (left.angle == right.angle);
+  
 }

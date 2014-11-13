@@ -8,10 +8,28 @@ Tetromino const TETROMINO_I = {
   { {0,1}, {1,1}, {2,1}, {3,1} } 
 } };
 
+Tetromino const TETROMINO_O = {
+  RED, {
+  { {0,1}, {0,2}, {1,1}, {1,2} },
+  { {0,1}, {0,2}, {1,1}, {1,2} },
+  { {0,1}, {0,2}, {1,1}, {1,2} },
+  { {0,1}, {0,2}, {1,1}, {1,2} }
+} };
+
 bool sameTetrominos(Tetromino const left, Tetromino const right)
 {
   if (! sameColors(left.color, right.color))
     return false;
+
+  // Todo: create a function
+  size_t angle, square_index;
+  for (angle=ANGLE_0 ; angle <= ANGLE_270; ++angle) {
+    for (square_index = 0 ; square_index < NUMBER_OF_SQUARES ; ++square_index) {
+        if (! samePositionsInGrid(left.allRotations[angle][square_index],
+                                  right.allRotations[angle][square_index]) )
+            return false;
+    }
+  }
 
   return true;
 }
