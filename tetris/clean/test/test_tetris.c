@@ -136,6 +136,28 @@ void testPieceMoveToBottom()
   CU_ASSERT( samePieces(piece,expectedBottomPiece) );
 }
 
+void testPieceRotate()
+{
+  Piece expectedPiece0 = {{5,3},TETROMINO_I,ANGLE_0};
+  Piece expectedPiece90 = {{5,3},TETROMINO_I,ANGLE_90};
+  Piece expectedPiece180 = {{5,3},TETROMINO_I,ANGLE_180};
+  Piece expectedPiece270 = {{5,3},TETROMINO_I,ANGLE_270};
+  
+  Piece piece = {{5,3},TETROMINO_I,ANGLE_0};
+
+  pieceRotate(&piece);
+  CU_ASSERT( samePieces(piece,expectedPiece90) );
+
+  pieceRotate(&piece);
+  CU_ASSERT( samePieces(piece,expectedPiece180) );
+
+  pieceRotate(&piece);
+  CU_ASSERT( samePieces(piece,expectedPiece270) );
+
+  pieceRotate(&piece);
+  CU_ASSERT( samePieces(piece,expectedPiece0) );
+}
+
 
 //////////////////////////////////////////////////////////////////////////////
 // Deprecated suite tests
@@ -200,6 +222,7 @@ int main()
    ADD_TEST_TO_SUITE(suitePiece, testPieceMoveToLeft)
    ADD_TEST_TO_SUITE(suitePiece, testPieceMoveToRight)
    ADD_TEST_TO_SUITE(suitePiece, testPieceMoveToBottom)
+   ADD_TEST_TO_SUITE(suitePiece, testPieceRotate)
 
    /* Create Point test suite */
    ADD_SUITE_TO_REGISTRY(suitePoint )

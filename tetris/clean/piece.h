@@ -20,6 +20,7 @@ struct piece
 void pieceMoveToLeft(Piece* toBeMoved);
 void pieceMoveToRight(Piece* toBeMoved);
 void pieceMoveToBottom(Piece* toBeMoved);
+void pieceRotate(Piece* toBeRotated);
 bool samePieces(Piece const left, Piece const right);
 
 #endif
