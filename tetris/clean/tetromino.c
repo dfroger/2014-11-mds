@@ -8,3 +8,10 @@ Tetromino const TETROMINO_I = {
   { {0,1}, {1,1}, {2,1}, {3,1} } 
 } };
 
+bool sameTetrominos(Tetromino const left, Tetromino const right)
+{
+  if (! sameColors(left.color, right.color))
+    return false;
+
+  return true;
+}

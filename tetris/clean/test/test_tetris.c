@@ -26,6 +26,12 @@ int clean_suite()
    return 0;
 }
 
+
+//////////////////////////////////////////////////////////////////////////////
+// Grid suite tests
+//////////////////////////////////////////////////////////////////////////////
+
+
 void test_set_row_to_zero()
 {
   size_t columnIndex;
@@ -49,6 +55,45 @@ void test_set_grid_to_zero()
   }
 }
 
+bool testSamePositionsInGrid()
+{
+  PositionInGrid left = {5,4};
+  PositionInGrid right = {1,2};
+  CU_ASSERT_TRUE( samePositionsInGrid(left,left) );
+  CU_ASSERT_FALSE( samePositionsInGrid(left,right) );
+
+}
+
+
+//////////////////////////////////////////////////////////////////////////////
+// Colors suite tests
+//////////////////////////////////////////////////////////////////////////////
+
+
+void testSameColors()
+{
+  RGBColor red = RED;
+  CU_ASSERT_TRUE( sameColors(WHITE,WHITE) );
+  CU_ASSERT_FALSE( sameColors(WHITE,red) );
+}
+
+
+//////////////////////////////////////////////////////////////////////////////
+// Tetrominos suite tests
+//////////////////////////////////////////////////////////////////////////////
+
+
+void testSameTetraminos()
+{
+  CU_ASSERT( sameTetrominos(TETROMINO_I,TETROMINO_I) );
+}
+
+
+//////////////////////////////////////////////////////////////////////////////
+// Piece suite tests
+//////////////////////////////////////////////////////////////////////////////
+
+
 void testPieceCopyToLeft()
 {
   Piece rightPiece = {{5,3},TETROMINO_I,ANGLE_0};
@@ -57,6 +102,10 @@ void testPieceCopyToLeft()
   pieceCopyToLeft(rightPiece,&actualLeftPiece);
   CU_ASSERT( samePieces(actualLeftPiece,expectedLeftPiece) );
 }
+
+//////////////////////////////////////////////////////////////////////////////
+// Deprecated suite tests
+//////////////////////////////////////////////////////////////////////////////
 
 void test_rotate90()
 {
@@ -87,6 +136,8 @@ void test_rotate90()
  */
 int main()
 {
+  CU_pSuite suiteColor = NULL;
+  CU_pSuite suiteTetromino = NULL;
   CU_pSuite suitePiece = NULL;
   CU_pSuite suitePoint = NULL;
   CU_pSuite Suite_grid = NULL;
@@ -96,38 +147,62 @@ int main()
    if (CUE_SUCCESS != CU_initialize_registry())
       return CU_get_error();
 
-   /* add a suite to the registry */
+   /* Create Grid test suite */
    Suite_grid = CU_add_suite("Suite_grid", init_suite, clean_suite);
    if ( Suite_grid == NULL ) {
       CU_cleanup_registry();
       return CU_get_error();
    }
+   if ((NULL == CU_add_test(Suite_grid, "test of set_row_to_zero()", test_set_row_to_zero)) ||
+       (NULL == CU_add_test(Suite_grid, "test of set_grid_to_zero()", test_set_grid_to_zero)))
+   {
+      CU_cleanup_registry();
+      return CU_get_error();
+   }
+
+   /* Create Color test suite */
+   suiteColor = CU_add_suite("suiteColor", init_suite, clean_suite);
+   if ( suiteColor == NULL ) {
+      CU_cleanup_registry();
+      return CU_get_error();
+   }
+   if ( ( CU_add_test(suiteColor, "testSameColors()", testSameColors) == NULL ) )
+   {
+      CU_cleanup_registry();
+      return CU_get_error();
+   }
+
+   /* Create Tetromino test suite */
+   suiteTetromino = CU_add_suite("suiteTetromino", init_suite, clean_suite);
+   if ( suiteTetromino == NULL ) {
+      CU_cleanup_registry();
+      return CU_get_error();
+   }
+   if ( ( CU_add_test(suiteTetromino, "testSameTetraminos()", testSameTetraminos) == NULL ) )
+   {
+      CU_cleanup_registry();
+      return CU_get_error();
+   }
+
+   /* Create Piece test suite */
    suitePiece = CU_add_suite("suitePiece", init_suite, clean_suite);
    if ( suitePiece == NULL ) {
       CU_cleanup_registry();
       return CU_get_error();
    }
-   suitePoint = CU_add_suite("suitePoint", init_suite, clean_suite);
-   if ( suitePoint == NULL ) {
-      CU_cleanup_registry();
-      return CU_get_error();
-   }
-
-   /* add the tests to the suite */
-   /* NOTE - ORDER IS IMPORTANT - MUST TEST fread() AFTER fprintf() */
    if ( ( CU_add_test(suitePiece, "testPieceCopyToLeft()", testPieceCopyToLeft) == NULL ) )
    {
       CU_cleanup_registry();
       return CU_get_error();
    }
-   if ( ( CU_add_test(suitePoint, "test_rotate90()", test_rotate90) == NULL ) )
-   {
+
+   /* Create Point test suite */
+   suitePoint = CU_add_suite("suitePoint", init_suite, clean_suite);
+   if ( suitePoint == NULL ) {
       CU_cleanup_registry();
       return CU_get_error();
    }
-   
-   if ((NULL == CU_add_test(Suite_grid, "test of set_row_to_zero()", test_set_row_to_zero)) ||
-       (NULL == CU_add_test(Suite_grid, "test of set_grid_to_zero()", test_set_grid_to_zero)))
+   if ( ( CU_add_test(suitePoint, "test_rotate90()", test_rotate90) == NULL ) )
    {
       CU_cleanup_registry();
       return CU_get_error();

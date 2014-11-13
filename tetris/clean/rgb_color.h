@@ -1,6 +1,8 @@
 #ifndef TETRIS_RGB_COLOR_H
 #define TETRIS_RGB_COLOR_H
 
+#include <stdbool.h>
+
 #define RGB(R,G,B) {R / 255.0, G / 255.0, B / 255.0}
 	
 #define RED		RGB(0xc0, 0x39, 0x2b)
@@ -11,12 +13,15 @@
 #define ORANGE		RGB(0xd3, 0x54, 0x00)
 #define TURQUOISE	RGB(0x1a, 0xbc, 0x9c)
 
-typedef struct rgb_color {
+struct rgbColor {
   float red;
   float green;
   float blue;
-} rgb_color;
+};
+typedef struct rgbColor RGBColor;
 
-static rgb_color const WHITE = {1,1,1};
+static RGBColor const WHITE = {1,1,1};
+
+bool sameColors(RGBColor const left, RGBColor const right);
 
 #endif
