@@ -19,6 +19,7 @@ struct piece
 
 void pieceMoveToLeft(Piece* toBeMoved);
 void pieceMoveToRight(Piece* toBeMoved);
+void pieceMoveToBottom(Piece* toBeMoved);
 bool samePieces(Piece const left, Piece const right);
 
 #endif

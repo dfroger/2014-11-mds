@@ -126,6 +126,16 @@ void testPieceMoveToRight()
   CU_ASSERT( samePieces(piece,expectedRightPiece) );
 }
 
+void testPieceMoveToBottom()
+{
+  Piece expectedBottomPiece = {{6,3},TETROMINO_I,ANGLE_0};
+  
+  Piece piece = {{5,3},TETROMINO_I,ANGLE_0};
+  pieceMoveToBottom(&piece);
+  
+  CU_ASSERT( samePieces(piece,expectedBottomPiece) );
+}
+
 
 //////////////////////////////////////////////////////////////////////////////
 // Deprecated suite tests
@@ -189,6 +199,7 @@ int main()
    ADD_SUITE_TO_REGISTRY(suitePiece )
    ADD_TEST_TO_SUITE(suitePiece, testPieceMoveToLeft)
    ADD_TEST_TO_SUITE(suitePiece, testPieceMoveToRight)
+   ADD_TEST_TO_SUITE(suitePiece, testPieceMoveToBottom)
 
    /* Create Point test suite */
    ADD_SUITE_TO_REGISTRY(suitePoint )
