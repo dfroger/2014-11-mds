@@ -1,7 +1,7 @@
 
 enable_testing()
 
-add_executable(test_tetris test_tetris.c ${CMAKE_SOURCE_DIR}/window.c ${CMAKE_SOURCE_DIR}/grid.c ${CMAKE_SOURCE_DIR}/point.c)
+add_executable(test_tetris test_tetris.c ${SOURCES})
 #/${SOURCES})
 
 add_test(test_tetris ${EXECUTABLE_OUTPUT_PATH}/test_tetris)

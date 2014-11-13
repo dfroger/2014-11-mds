@@ -5,7 +5,7 @@
 #include <gdk/gdkkeysyms.h>
 
 #include "grid.h"
-#include "tetrominos.h"
+#include "tetrominos-old.h"
 
 struct application {
   GtkWidget *button_newgame, *button_pause, *grid, *next_piece;

@@ -5,7 +5,7 @@
 /* Tetris files */
 #include "grid.h"
 #include "point.h"
-
+#include "piece.h"
 /* Standard library files */
 #include <stdio.h>
 #include <string.h>
@@ -49,6 +49,15 @@ void test_set_grid_to_zero()
   }
 }
 
+void testPieceCopyToLeft()
+{
+  Piece rightPiece = {{5,3},TETROMINO_I,ANGLE_0};
+  Piece expectedLeftPiece = {{5,2},TETROMINO_I,ANGLE_0};
+  Piece actualLeftPiece;
+  pieceCopyToLeft(rightPiece,&actualLeftPiece);
+  CU_ASSERT( samePieces(actualLeftPiece,expectedLeftPiece) );
+}
+
 void test_rotate90()
 {
   Point const center = {3,1};
@@ -78,6 +87,7 @@ void test_rotate90()
  */
 int main()
 {
+  CU_pSuite suitePiece = NULL;
   CU_pSuite suitePoint = NULL;
   CU_pSuite Suite_grid = NULL;
 
@@ -92,6 +102,11 @@ int main()
       CU_cleanup_registry();
       return CU_get_error();
    }
+   suitePiece = CU_add_suite("suitePiece", init_suite, clean_suite);
+   if ( suitePiece == NULL ) {
+      CU_cleanup_registry();
+      return CU_get_error();
+   }
    suitePoint = CU_add_suite("suitePoint", init_suite, clean_suite);
    if ( suitePoint == NULL ) {
       CU_cleanup_registry();
@@ -100,6 +115,11 @@ int main()
 
    /* add the tests to the suite */
    /* NOTE - ORDER IS IMPORTANT - MUST TEST fread() AFTER fprintf() */
+   if ( ( CU_add_test(suitePiece, "testPieceCopyToLeft()", testPieceCopyToLeft) == NULL ) )
+   {
+      CU_cleanup_registry();
+      return CU_get_error();
+   }
    if ( ( CU_add_test(suitePoint, "test_rotate90()", test_rotate90) == NULL ) )
    {
       CU_cleanup_registry();

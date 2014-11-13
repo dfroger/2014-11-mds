@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "tetrominos.h"
+#include "tetrominos-old.h"
 #include "grid.h"
 #include "window.h"
 

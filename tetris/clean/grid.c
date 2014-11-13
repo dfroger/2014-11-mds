@@ -1,5 +1,5 @@
 #include "grid.h"
-#include "tetrominos.h"
+#include "tetrominos-old.h"
 #include "window.h"
 
 struct coordinates coordinates_of_square(unsigned int square_index) {
