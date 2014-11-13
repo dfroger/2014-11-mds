@@ -27,8 +27,17 @@ int clean_suite()
 }
 
 #define ADD_TEST_TO_SUITE(suite,test) \
-if ( ( CU_add_test(suite, #test, test) == NULL ) ) \
-    {CU_cleanup_registry(); return CU_get_error(); }
+if ( ( CU_add_test(suite, #test, test) == NULL ) ) { \
+    CU_cleanup_registry(); \
+    return CU_get_error(); \
+}
+
+#define ADD_SUITE_TO_REGISTRY(suite) \
+suite = CU_add_suite(#suite, init_suite, clean_suite); \
+if ( suite == NULL ) { \
+  CU_cleanup_registry(); \
+  return CU_get_error(); \
+}
 
 //////////////////////////////////////////////////////////////////////////////
 // Grid suite tests
@@ -152,44 +161,24 @@ int main()
       return CU_get_error();
 
    /* Create Grid test suite */
-   Suite_grid = CU_add_suite("Suite_grid", init_suite, clean_suite);
-   if ( Suite_grid == NULL ) {
-      CU_cleanup_registry();
-      return CU_get_error();
-   }
-   ADD_TEST_TO_SUITE(Suite_grid,test_set_row_to_zero) \
-   ADD_TEST_TO_SUITE(Suite_grid,test_set_grid_to_zero) \
+   ADD_SUITE_TO_REGISTRY(Suite_grid)
+   ADD_TEST_TO_SUITE(Suite_grid,test_set_row_to_zero)
+   ADD_TEST_TO_SUITE(Suite_grid,test_set_grid_to_zero)
 
    /* Create Color test suite */
-   suiteColor = CU_add_suite("suiteColor", init_suite, clean_suite);
-   if ( suiteColor == NULL ) {
-      CU_cleanup_registry();
-      return CU_get_error();
-   }
+   ADD_SUITE_TO_REGISTRY(suiteColor)
    ADD_TEST_TO_SUITE(suiteColor, testSameColors)
 
    /* Create Tetromino test suite */
-   suiteTetromino = CU_add_suite("suiteTetromino", init_suite, clean_suite);
-   if ( suiteTetromino == NULL ) {
-      CU_cleanup_registry();
-      return CU_get_error();
-   }
+   ADD_SUITE_TO_REGISTRY(suiteTetromino)
    ADD_TEST_TO_SUITE(suiteTetromino, testSameTetraminos)
 
    /* Create Piece test suite */
-   suitePiece = CU_add_suite("suitePiece", init_suite, clean_suite);
-   if ( suitePiece == NULL ) {
-      CU_cleanup_registry();
-      return CU_get_error();
-   }
+   ADD_SUITE_TO_REGISTRY(suitePiece )
    ADD_TEST_TO_SUITE(suitePiece, testPieceMoveToLeft)
 
    /* Create Point test suite */
-   suitePoint = CU_add_suite("suitePoint", init_suite, clean_suite);
-   if ( suitePoint == NULL ) {
-      CU_cleanup_registry();
-      return CU_get_error();
-   }
+   ADD_SUITE_TO_REGISTRY(suitePoint )
    ADD_TEST_TO_SUITE(suitePoint, test_rotate90)
 
    /* Run all tests using the CUnit Basic interface */
@@ -198,4 +187,3 @@ int main()
    CU_cleanup_registry();
    return CU_get_error();
 }
-
