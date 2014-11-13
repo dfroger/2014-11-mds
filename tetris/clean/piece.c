@@ -5,6 +5,11 @@ void pieceMoveToLeft(Piece* toBeMoved)
   toBeMoved->topLeftCorner.columnIndex--;
 }
 
+void pieceMoveToRight(Piece* toBeMoved)
+{
+  toBeMoved->topLeftCorner.columnIndex++;
+}
+
 bool samePieces(Piece const left, Piece const right)
 {
   return samePositionsInGrid(left.topLeftCorner,right.topLeftCorner) &&
