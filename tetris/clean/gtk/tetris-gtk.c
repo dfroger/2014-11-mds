@@ -43,7 +43,10 @@ gboolean on_wgrid_expose_event(GtkWidget *wgrid, gpointer data)
       pos.rowIndex = irow;
       pos.columnIndex = icol;
       TetrominoType type = grid_get_cell(grid,pos);
-      color = game->tetrominosCollection->tetrominos[type].color;
+      if (type == TETROMINO_VOID)
+          color = WHITE;
+      else
+          color = game->tetrominosCollection->tetrominos[type].color;
       fill_cell(cr, color, irow, icol);
     }
   }

@@ -18,7 +18,8 @@ Game* gameNew(Grid* grid, TetrominosCollection* tetrominosCollection)
     game->tetrominosCollection = tetrominosCollection;
     game->piece = (Piece*) malloc(sizeof(Piece));
     game->piece->topLeftCorner.rowIndex = 0;
-    game->piece->topLeftCorner.columnIndex = 0;
+    game->piece->topLeftCorner.columnIndex = (grid->numberOfColumns - 
+                                              TETROMINO_GRID_SIZE)/2;
     game->piece->angle = ANGLE_0;
     gameNewPiece(game);
     return game;
