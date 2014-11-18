@@ -3,8 +3,7 @@
 #include "CUnit/Basic.h"
 
 /* Tetris files */
-#include "grid.h"
-#include "point.h"
+/*#include "grid.h"*/
 #include "piece.h"
 /* Standard library files */
 #include <stdio.h>
@@ -16,7 +15,7 @@ static size_t const ZERO = 0;
 /* Suite initialization */
 int init_suite()
 {
-   random_row_index = rand() % NUMBER_OF_ROWS;
+   /*random_row_index = rand() % NUMBER_OF_ROWS;*/
    return 0;
 }
 
@@ -44,6 +43,7 @@ if ( suite == NULL ) { \
 //////////////////////////////////////////////////////////////////////////////
 
 
+/*
 void test_set_row_to_zero()
 {
   size_t columnIndex;
@@ -75,6 +75,7 @@ void testSamePositionsInGrid()
   CU_ASSERT_FALSE( samePositionsInGrid(left,right) );
 
 }
+*/
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -159,34 +160,6 @@ void testPieceRotate()
 }
 
 
-//////////////////////////////////////////////////////////////////////////////
-// Deprecated suite tests
-//////////////////////////////////////////////////////////////////////////////
-
-
-void test_rotate90()
-{
-  Point const center = {3,1};
-  Point point = {4,1};
-
-  Point point0 = point;
-  Point point90 = {3,2};
-  Point point180 = {2,1};
-  Point point270 = {3,0};
-  
-  rotate90(center,&point);
-  CU_ASSERT( samePoints(point,point90) );
-  
-  rotate90(center,&point);
-  CU_ASSERT( samePoints(point,point180) );
-  
-  rotate90(center,&point);
-  CU_ASSERT( samePoints(point,point270) );
-  
-  rotate90(center,&point);
-  CU_ASSERT( samePoints(point,point0) );
-}
-
 /* The main() function for setting up and running the tests.
  * Returns a CUE_SUCCESS on successful running, another
  * CUnit error code on failure.
@@ -197,7 +170,7 @@ int main()
   CU_pSuite suiteTetromino = NULL;
   CU_pSuite suitePiece = NULL;
   CU_pSuite suitePoint = NULL;
-  CU_pSuite Suite_grid = NULL;
+  /*CU_pSuite Suite_grid = NULL;*/
 
 
    /* initialize the CUnit test registry */
@@ -205,9 +178,9 @@ int main()
       return CU_get_error();
 
    /* Create Grid test suite */
-   ADD_SUITE_TO_REGISTRY(Suite_grid)
-   ADD_TEST_TO_SUITE(Suite_grid,test_set_row_to_zero)
-   ADD_TEST_TO_SUITE(Suite_grid,test_set_grid_to_zero)
+   /*ADD_SUITE_TO_REGISTRY(Suite_grid)*/
+   /*ADD_TEST_TO_SUITE(Suite_grid,test_set_row_to_zero)*/
+   /*ADD_TEST_TO_SUITE(Suite_grid,test_set_grid_to_zero)*/
 
    /* Create Color test suite */
    ADD_SUITE_TO_REGISTRY(suiteColor)
@@ -223,10 +196,6 @@ int main()
    ADD_TEST_TO_SUITE(suitePiece, testPieceMoveToRight)
    ADD_TEST_TO_SUITE(suitePiece, testPieceMoveToBottom)
    ADD_TEST_TO_SUITE(suitePiece, testPieceRotate)
-
-   /* Create Point test suite */
-   ADD_SUITE_TO_REGISTRY(suitePoint )
-   ADD_TEST_TO_SUITE(suitePoint, test_rotate90)
 
    /* Run all tests using the CUnit Basic interface */
    CU_basic_set_mode(CU_BRM_VERBOSE);

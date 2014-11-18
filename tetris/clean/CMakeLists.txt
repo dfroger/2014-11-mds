@@ -4,13 +4,14 @@ project(tetris)
 
 SET( CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} -Wall -Wextra" )
 
-set(SOURCES ${CMAKE_SOURCE_DIR}/window.c 
-            ${CMAKE_SOURCE_DIR}/grid.c 
-            ${CMAKE_SOURCE_DIR}/point.c 
-            ${CMAKE_SOURCE_DIR}/piece.c
-            ${CMAKE_SOURCE_DIR}/tetromino.c
-            ${CMAKE_SOURCE_DIR}/rgb_color.c
-            ${CMAKE_SOURCE_DIR}/positionInGrid.c
+set(SOURCES
+    #${CMAKE_SOURCE_DIR}/window.c 
+    #${CMAKE_SOURCE_DIR}/grid.c 
+    #${CMAKE_SOURCE_DIR}/point.c 
+    ${CMAKE_SOURCE_DIR}/piece.c
+    ${CMAKE_SOURCE_DIR}/tetromino.c
+    ${CMAKE_SOURCE_DIR}/rgb_color.c
+    ${CMAKE_SOURCE_DIR}/positionInGrid.c
 )
 
 add_executable(tetris tetris.c ${SOURCES})
