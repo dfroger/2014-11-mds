@@ -2,25 +2,13 @@ cmake_minimum_required(VERSION 2.8)
 cmake_policy(VERSION 2.8)
 project(tetris)
 
-SET( CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} -Wall -Wextra" )
+set( CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} -Wall -Wextra" )
 
-set(SOURCES
-    #${CMAKE_SOURCE_DIR}/window.c 
-    #${CMAKE_SOURCE_DIR}/grid.c 
-    #${CMAKE_SOURCE_DIR}/point.c 
-    ${CMAKE_SOURCE_DIR}/core/piece.c
-    ${CMAKE_SOURCE_DIR}/core/tetromino.c
-    ${CMAKE_SOURCE_DIR}/core/rgb_color.c
-    ${CMAKE_SOURCE_DIR}/core/positionInGrid.c
-)
+set(TETRIS_CORE_LIBRARY tetris_core)
+set(TETRIS_CORE_INCLUDE ${CMAKE_SOURCE_DIR}/core)
 
-include_directories(${CMAKE_SOURCE_DIR}/core)
+set(TETRIS_GTK_LIBRARY tetris_gtk)
+set(TETRIS_GTK_INCLUDE ${CMAKE_SOURCE_DIR}/gtk)
 
-add_executable(tetris gtk/tetris.c ${SOURCES})
-
-find_package(GTK2 2.6 REQUIRED gtk)
-include_directories(${GTK2_INCLUDE_DIRS})
-target_link_libraries(tetris ${GTK2_LIBRARIES})
-
-add_subdirectory(core/test)
-
+add_subdirectory(core)
+add_subdirectory(gtk)

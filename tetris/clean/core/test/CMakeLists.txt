@@ -1,9 +1,8 @@
 enable_testing()
 
-add_executable(test_tetris test_tetris.c ${SOURCES})
+include_directories(${TETRIS_CORE_INCLUDE})
 
-add_test(test_tetris ${EXECUTABLE_OUTPUT_PATH}/test_tetris)
+add_executable(test_tetris_core test_tetris_core.c)
+target_link_libraries(test_tetris_core ${TETRIS_CORE_LIBRARY} cunit)
 
-find_package(GTK2 2.6 REQUIRED gtk)
-target_link_libraries(test_tetris ${GTK2_LIBRARIES})
-target_link_libraries(test_tetris cunit)
+add_test(test_tetris_core ${EXECUTABLE_OUTPUT_PATH}/test_tetris_core)

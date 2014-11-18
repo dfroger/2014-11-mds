@@ -79,19 +79,6 @@ void testSamePositionsInGrid()
 
 
 //////////////////////////////////////////////////////////////////////////////
-// Colors suite tests
-//////////////////////////////////////////////////////////////////////////////
-
-
-void testSameColors()
-{
-  RGBColor red = RED;
-  CU_ASSERT_TRUE( sameColors(WHITE,WHITE) );
-  CU_ASSERT_FALSE( sameColors(WHITE,red) );
-}
-
-
-//////////////////////////////////////////////////////////////////////////////
 // Tetrominos suite tests
 //////////////////////////////////////////////////////////////////////////////
 
@@ -166,7 +153,6 @@ void testPieceRotate()
  */
 int main()
 {
-  CU_pSuite suiteColor = NULL;
   CU_pSuite suiteTetromino = NULL;
   CU_pSuite suitePiece = NULL;
   CU_pSuite suitePoint = NULL;
@@ -181,10 +167,6 @@ int main()
    /*ADD_SUITE_TO_REGISTRY(Suite_grid)*/
    /*ADD_TEST_TO_SUITE(Suite_grid,test_set_row_to_zero)*/
    /*ADD_TEST_TO_SUITE(Suite_grid,test_set_grid_to_zero)*/
-
-   /* Create Color test suite */
-   ADD_SUITE_TO_REGISTRY(suiteColor)
-   ADD_TEST_TO_SUITE(suiteColor, testSameColors)
 
    /* Create Tetromino test suite */
    ADD_SUITE_TO_REGISTRY(suiteTetromino)

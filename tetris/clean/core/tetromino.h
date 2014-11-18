@@ -4,7 +4,6 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-#include "rgb_color.h"
 #include "positionInGrid.h"
 
 #define NUMBER_OF_SQUARES 4
@@ -14,7 +13,6 @@ typedef PositionInGrid TetrominoRotation[NUMBER_OF_SQUARES];
 
 struct tetromino 
 {
-  RGBColor color;
   TetrominoRotation allRotations[NUMBER_OF_TETROMINO_ROTATIONS];
 };
 typedef struct tetromino Tetromino;

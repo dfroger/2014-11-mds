@@ -10,9 +10,6 @@
 #define NROWS 3
 #define NCOLS 2
 
-RGBColor color_red = RED;
-RGBColor color_blue = BLUE;
-
 static int const grid[NROWS][NCOLS] = { {1,1}, {2,2}, {1,1} };
 
 void fill_cell(cairo_t *cr, int tetromino_type, int i, int j)
@@ -27,13 +24,13 @@ void fill_cell(cairo_t *cr, int tetromino_type, int i, int j)
 
   float red, green, blue;
   if (tetromino_type == 1) {
-      red = color_red.red;
-      blue = color_red.blue;
-      green = color_red.green;
+      red = RED.red;
+      blue = RED.blue;
+      green = RED.green;
   } else {
-      red = color_blue.red;
-      blue = color_blue.blue;
-      green = color_blue.green;
+      red = BLUE.red;
+      blue = BLUE.blue;
+      green = BLUE.green;
   }
 
   cairo_set_source_rgb(cr, red, green, blue);
