@@ -1,27 +1,28 @@
-
-/* CUnit files */
-#include "CUnit/Basic.h"
-
-/* Tetris files */
-/*#include "grid.h"*/
-#include "piece.h"
-/* Standard library files */
 #include <stdio.h>
 #include <string.h>
 
+#include "CUnit/Basic.h"
+
+#include "piece.h"
+#include "tetromino_srs.h"
+
 static size_t random_row_index;
 static size_t const ZERO = 0;
+
+TetrominosCollection* tetrominosCollection;
 
 /* Suite initialization */
 int init_suite()
 {
    /*random_row_index = rand() % NUMBER_OF_ROWS;*/
+   tetrominosCollection = getTetrominosCollectionSRS();
    return 0;
 }
 
 /* Suite termination */
 int clean_suite()
 {
+   tetrominosCollectionDestroy(tetrominosCollection);
    return 0;
 }
 
@@ -83,12 +84,6 @@ void testSamePositionsInGrid()
 //////////////////////////////////////////////////////////////////////////////
 
 
-void testSameTetraminos()
-{
-  CU_ASSERT( sameTetrominos(TETROMINO_I,TETROMINO_I) );
-}
-
-
 //////////////////////////////////////////////////////////////////////////////
 // Piece suite tests
 //////////////////////////////////////////////////////////////////////////////
@@ -96,6 +91,8 @@ void testSameTetraminos()
 
 void testPieceMoveToLeft()
 {
+  Tetromino TETROMINO_I = tetrominosCollection->tetrominos[TETROMINO_SRS_I];
+
   Piece expectedLeftPiece = {{5,2},TETROMINO_I,ANGLE_0};
   
   Piece piece = {{5,3},TETROMINO_I,ANGLE_0};
@@ -106,6 +103,8 @@ void testPieceMoveToLeft()
 
 void testPieceMoveToRight()
 {
+  Tetromino TETROMINO_I = tetrominosCollection->tetrominos[TETROMINO_SRS_I];
+
   Piece expectedRightPiece = {{5,3},TETROMINO_I,ANGLE_0};
   
   Piece piece = {{5,2},TETROMINO_I,ANGLE_0};
@@ -116,6 +115,8 @@ void testPieceMoveToRight()
 
 void testPieceMoveToBottom()
 {
+  Tetromino TETROMINO_I = tetrominosCollection->tetrominos[TETROMINO_SRS_I];
+
   Piece expectedBottomPiece = {{6,3},TETROMINO_I,ANGLE_0};
   
   Piece piece = {{5,3},TETROMINO_I,ANGLE_0};
@@ -126,6 +127,8 @@ void testPieceMoveToBottom()
 
 void testPieceRotate()
 {
+  Tetromino TETROMINO_I = tetrominosCollection->tetrominos[TETROMINO_SRS_I];
+
   Piece expectedPiece0 = {{5,3},TETROMINO_I,ANGLE_0};
   Piece expectedPiece90 = {{5,3},TETROMINO_I,ANGLE_90};
   Piece expectedPiece180 = {{5,3},TETROMINO_I,ANGLE_180};
@@ -169,8 +172,7 @@ int main()
    /*ADD_TEST_TO_SUITE(Suite_grid,test_set_grid_to_zero)*/
 
    /* Create Tetromino test suite */
-   ADD_SUITE_TO_REGISTRY(suiteTetromino)
-   ADD_TEST_TO_SUITE(suiteTetromino, testSameTetraminos)
+   /*ADD_SUITE_TO_REGISTRY(suiteTetromino)*/
 
    /* Create Piece test suite */
    ADD_SUITE_TO_REGISTRY(suitePiece )

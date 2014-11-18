@@ -23,7 +23,6 @@ void pieceRotate(Piece* toBeRotated)
 bool samePieces(Piece const left, Piece const right)
 {
   return samePositionsInGrid(left.topLeftCorner,right.topLeftCorner) &&
-         sameTetrominos(left.tetromino,right.tetromino) &&
+         left.tetromino.type == right.tetromino.type &&
          (left.angle == right.angle);
-  
 }

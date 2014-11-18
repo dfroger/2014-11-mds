@@ -1,5 +1,3 @@
-include_directories(${TETRIS_CORE_INCLUDE})
-
 add_executable(test_tetris_core test_tetris_core.c)
 target_link_libraries(test_tetris_core ${TETRIS_CORE_LIBRARY} cunit)
 

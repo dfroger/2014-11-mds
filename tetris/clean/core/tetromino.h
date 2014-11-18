@@ -4,24 +4,33 @@
 #include <stdbool.h>
 #include <stddef.h>
 
+#include "rgb_color.h"
 #include "positionInGrid.h"
 
 #define NUMBER_OF_SQUARES 4
 #define NUMBER_OF_TETROMINO_ROTATIONS 4
 
+typedef unsigned int TetrominoType;
+
 typedef PositionInGrid TetrominoRotation[NUMBER_OF_SQUARES];
+typedef TetrominoRotation TetrominoAllRotations[NUMBER_OF_TETROMINO_ROTATIONS];
 
-struct tetromino 
+enum TetrominoRotationAngle { ANGLE_0=0, ANGLE_90=1, ANGLE_180=2, ANGLE_270=3 };
+
+typedef struct tetromino 
 {
-  TetrominoRotation allRotations[NUMBER_OF_TETROMINO_ROTATIONS];
-};
-typedef struct tetromino Tetromino;
+  RGBColor color;
+  TetrominoType type;
+  TetrominoAllRotations allRotations;
+} Tetromino;
 
-extern Tetromino const TETROMINO_I;
-extern Tetromino const TETROMINO_O;
+typedef struct tetromino_collection
+{
+    unsigned int numberOfTetrominos;
+    unsigned int gridSize;
+    Tetromino* tetrominos;
+} TetrominosCollection;
 
-enum RotationAngle { ANGLE_0=0, ANGLE_90=1, ANGLE_180=2, ANGLE_270=3 };
-
-bool sameTetrominos(Tetromino const left, Tetromino const right);
+void tetrominosCollectionDestroy(TetrominosCollection* coll);
 
 #endif
