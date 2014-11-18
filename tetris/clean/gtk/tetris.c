@@ -1,24 +1,81 @@
+/* https://developer.gnome.org/gtk2/stable/GtkDrawingArea.html */
+#include <stdlib.h>
+#include <stdio.h>
+
 #include <gtk/gtk.h>
 
-int main() 
+#include "rgb_color.h"
+
+#define NPIXELS 24
+#define NROWS 3
+#define NCOLS 2
+
+RGBColor color_red = RED;
+RGBColor color_blue = BLUE;
+
+static int const grid[NROWS][NCOLS] = { {1,1}, {2,2}, {1,1} };
+
+void fill_cell(cairo_t *cr, int tetromino_type, int i, int j)
 {
-  gtk_init(0, NULL);
-  GtkWidget* window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  gtk_widget_show(window);
-  gtk_window_resize(GTK_WINDOW(window), 300, 600);
+  const int line_width = 2;
+  double x = j * NPIXELS + line_width;
+  double y = i * NPIXELS + line_width;
+  double width = NPIXELS - line_width;
+  double height = NPIXELS - line_width;
 
-  GdkPixmap* pixmap = gdk_pixmap_new(window, 100, 50, -1);
-  /*GtkWidget* grid = gtk_drawing_area_new();*/
-  /*gtk_drawing_area_size(GTK_DRAWING_AREA(grid), 100, 50);*/
-  gtk_container_add(GTK_CONTAINER(window), pixmap);
+  cairo_rectangle(cr, x, y, width, height);
 
-  gdk_draw_rectangle(pixmap, window->style->dark_gc,
-          TRUE, 20 , 30, 40, 50);
+  float red, green, blue;
+  if (tetromino_type == 1) {
+      red = color_red.red;
+      blue = color_red.blue;
+      green = color_red.green;
+  } else {
+      red = color_blue.red;
+      blue = color_blue.blue;
+      green = color_blue.green;
+  }
 
-
-
-  gtk_main();
-  return 0;
+  cairo_set_source_rgb(cr, red, green, blue);
+  cairo_fill_preserve(cr);
+  cairo_set_line_width(cr, line_width);
+  cairo_set_source_rgb(cr, red * 0.5, green * 0.5, blue * 0.5);
+  cairo_stroke(cr);
 }
 
+gboolean on_wgrid_expose_event(GtkWidget *wgrid, gpointer data)
+{
+  printf("on_wgrid_expose_event\n");
+  
+  cairo_t* cr = gdk_cairo_create(wgrid->window);
 
+  int irow, icol;
+  for (irow = 0; irow < NROWS; irow++) {
+    for (icol = 0; icol < NCOLS; icol++) {
+      fill_cell(cr, grid[irow][icol], irow, icol);
+    }
+  }
+  cairo_destroy(cr);
+  return TRUE;
+}
+
+int main(int argc, char* argv[]) 
+{
+  gtk_init(&argc, &argv);
+
+  GtkWidget* window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
+
+  GtkWidget *wgrid = gtk_drawing_area_new();
+  gtk_widget_set_size_request(wgrid, NCOLS*NPIXELS, NROWS*NPIXELS);
+  g_signal_connect(G_OBJECT(wgrid), "expose_event", G_CALLBACK(on_wgrid_expose_event), NULL);
+
+  gtk_container_add(GTK_CONTAINER(window), wgrid);
+  gtk_widget_show(wgrid);
+
+  gtk_widget_show(window);
+
+  gtk_main();
+
+  return EXIT_SUCCESS;
+}

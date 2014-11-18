@@ -14,6 +14,8 @@ set(SOURCES
     ${CMAKE_SOURCE_DIR}/core/positionInGrid.c
 )
 
+include_directories(${CMAKE_SOURCE_DIR}/core)
+
 add_executable(tetris gtk/tetris.c ${SOURCES})
 
 find_package(GTK2 2.6 REQUIRED gtk)
