@@ -29,7 +29,7 @@ TetrominosCollection* getTetrominosCollectionSRS()
     memcpy(tetrominoI.allRotations, tetrominoIAllRotations, sizeof(TetrominoAllRotations));
 
     tetrominoO.color = BLUE;
-    tetrominoI.type = TETROMINO_SRS_O;
+    tetrominoO.type = TETROMINO_SRS_O;
     memcpy(tetrominoO.allRotations, tetrominoOAllRotations, sizeof(TetrominoAllRotations));
 
     TetrominosCollection* coll = (TetrominosCollection*) malloc(sizeof(TetrominosCollection));

@@ -145,16 +145,39 @@ void testGridSetCellsWithPiece()
 
     // Create a piece;
     Tetromino TETROMINO_I = tetrominosCollection->tetrominos[TETROMINO_SRS_I];
-    Piece piece = {{2,3},TETROMINO_I,ANGLE_0};
+    Piece piece = {{2,3},TETROMINO_I,ANGLE_90};
 
     gridSetCellsWithPiece(grid, &piece);
 
-    /*for (rowIndex = 0 ; rowIndex < grid->numberOfRows; rowIndex++) {*/
-        /*for (columnIndex = 0 ; columnIndex < grid->numberOfColumns ; columnIndex++) {*/
-            /*grid->tetrominoTypes[rowIndex][columnIndex] = TETROMINO_VOID;*/
-        /*}*/
-    /*}*/
+    // The piece position in grid.
+    PositionInGrid pos0 = {2,5};
+    PositionInGrid pos1 = {3,5};
+    PositionInGrid pos2 = {4,5};
+    PositionInGrid pos3 = {5,5};
+    PositionInGrid pos;
 
+    TetrominoType type;
+    TetrominoType expectedType;
+
+    unsigned int rowIndex;
+    unsigned int columnIndex;
+    for (rowIndex = 0 ; rowIndex < grid->numberOfRows; rowIndex++) {
+        for (columnIndex = 0 ; columnIndex < grid->numberOfColumns ; columnIndex++) {
+            pos.rowIndex = rowIndex;
+            pos.columnIndex = columnIndex;
+            if (samePositionsInGrid(pos, pos0) ||
+                samePositionsInGrid(pos, pos1) ||
+                samePositionsInGrid(pos, pos2) ||
+                samePositionsInGrid(pos, pos3))
+            {
+                expectedType = TETROMINO_SRS_I;
+            } else {
+                expectedType = TETROMINO_VOID;
+            }
+            type = grid_get_cell(grid,pos);
+            CU_ASSERT_EQUAL(type,expectedType);
+        }
+    }
 }
 
 /*
@@ -302,6 +325,7 @@ int main()
    ADD_TEST_TO_SUITE(Suite_grid,test_grid_new_destroy)
    ADD_TEST_TO_SUITE(Suite_grid,test_grid_set_get_cell)
    ADD_TEST_TO_SUITE(Suite_grid,testPiecePositionInGrid)
+   ADD_TEST_TO_SUITE(Suite_grid,testGridSetCellsWithPiece)
    /*ADD_TEST_TO_SUITE(Suite_grid,test_set_row_to_zero)*/
    /*ADD_TEST_TO_SUITE(Suite_grid,test_set_grid_to_zero)*/
 
