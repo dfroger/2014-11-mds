@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 2.8)
 cmake_policy(VERSION 2.8)
 project(tetris)
 
+enable_testing()
+
 set( CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} -Wall -Wextra" )
 
 set(TETRIS_CORE_LIBRARY tetris_core)

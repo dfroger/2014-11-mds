@@ -1,5 +1,3 @@
-enable_testing()
-
 include_directories(
     ${TETRIS_CORE_INCLUDE}
     ${TETRIS_GTK_INCLUDE}

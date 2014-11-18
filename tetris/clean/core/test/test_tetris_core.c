@@ -182,6 +182,8 @@ int main()
    /* Run all tests using the CUnit Basic interface */
    CU_basic_set_mode(CU_BRM_VERBOSE);
    CU_basic_run_tests();
+   unsigned int number_of_tests_failed = CU_get_number_of_tests_failed();
    CU_cleanup_registry();
-   return CU_get_error();
+
+   return number_of_tests_failed;
 }

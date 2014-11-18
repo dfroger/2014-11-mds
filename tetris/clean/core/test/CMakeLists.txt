@@ -1,5 +1,3 @@
-enable_testing()
-
 include_directories(${TETRIS_CORE_INCLUDE})
 
 add_executable(test_tetris_core test_tetris_core.c)
