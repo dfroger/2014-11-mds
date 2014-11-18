@@ -3,6 +3,7 @@
 
 #include <stddef.h>
 #include <stdbool.h>
+
 #include "tetromino.h"
 
 #define SPACE_DIMENSION 2
@@ -20,5 +21,6 @@ void pieceMoveToRight(Piece* toBeMoved);
 void pieceMoveToBottom(Piece* toBeMoved);
 void pieceRotate(Piece* toBeRotated);
 bool samePieces(Piece const left, Piece const right);
+PositionInGrid piecePositionInGrid(Piece* piece, unsigned int squareIndex);
 
 #endif

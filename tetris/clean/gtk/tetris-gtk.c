@@ -12,7 +12,7 @@
 
 static Game* game;
 
-void fill_cell(cairo_t *cr, int tetromino_type, unsigned i, unsigned j)
+void fill_cell(cairo_t *cr, RGBColor color, unsigned i, unsigned j)
 {
   const int line_width = 2;
   double x = j * NPIXELS + line_width;
@@ -22,21 +22,10 @@ void fill_cell(cairo_t *cr, int tetromino_type, unsigned i, unsigned j)
 
   cairo_rectangle(cr, x, y, width, height);
 
-  float red, green, blue;
-  if (tetromino_type == 1) {
-      red = RED.red;
-      blue = RED.blue;
-      green = RED.green;
-  } else {
-      red = BLUE.red;
-      blue = BLUE.blue;
-      green = BLUE.green;
-  }
-
-  cairo_set_source_rgb(cr, red, green, blue);
+  cairo_set_source_rgb(cr, color.red, color.green, color.blue);
   cairo_fill_preserve(cr);
   cairo_set_line_width(cr, line_width);
-  cairo_set_source_rgb(cr, red * 0.5, green * 0.5, blue * 0.5);
+  cairo_set_source_rgb(cr, color.red * 0.5, color.green * 0.5, color.blue * 0.5);
   cairo_stroke(cr);
 }
 
@@ -47,8 +36,8 @@ gboolean on_wgrid_expose_event(GtkWidget *wgrid, gpointer data)
   Tetromino TETROMINO_I = game->tetrominosCollection->tetrominos[TETROMINO_SRS_I];
   Piece piece = {{5,3},TETROMINO_I,ANGLE_0};
 
-  gameDemo(game, &piece);
   Grid* grid = game->grid;
+  RGBColor color;
 
   unsigned int irow, icol;
   for (irow = 0; irow < grid->numberOfRows; irow++) {
@@ -57,7 +46,8 @@ gboolean on_wgrid_expose_event(GtkWidget *wgrid, gpointer data)
       pos.rowIndex = irow;
       pos.columnIndex = icol;
       TetrominoType type = grid_get_cell(grid,pos);
-      fill_cell(cr, type, irow, icol);
+      color = game->tetrominosCollection->tetrominos[type].color;
+      fill_cell(cr, color, irow, icol);
     }
   }
   cairo_destroy(cr);

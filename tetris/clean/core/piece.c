@@ -26,3 +26,15 @@ bool samePieces(Piece const left, Piece const right)
          left.tetromino.type == right.tetromino.type &&
          (left.angle == right.angle);
 }
+
+PositionInGrid piecePositionInGrid(Piece* piece, unsigned int squareIndex)
+{
+    PositionInGrid pos;
+    pos.rowIndex = piece->topLeftCorner.rowIndex + 
+       piece->tetromino.allRotations[piece->angle][squareIndex].rowIndex;
+
+    pos.columnIndex = piece->topLeftCorner.columnIndex + 
+       piece->tetromino.allRotations[piece->angle][squareIndex].columnIndex;
+
+    return pos;
+}

@@ -111,6 +111,52 @@ void test_grid_set_get_cell()
     }
 }
 
+void testPiecePositionInGrid()
+{
+    // Create a piece;
+    Tetromino TETROMINO_I = tetrominosCollection->tetrominos[TETROMINO_SRS_I];
+    Piece piece = {{2,3},TETROMINO_I,ANGLE_90};
+
+    // Expected result
+    PositionInGrid expectedPos0 = {2,5};
+    PositionInGrid expectedPos1 = {3,5};
+    PositionInGrid expectedPos2 = {4,5};
+    PositionInGrid expectedPos3 = {5,5};
+
+    // Actual results
+    PositionInGrid pos0 = piecePositionInGrid(&piece,0);
+    PositionInGrid pos1 = piecePositionInGrid(&piece,1);
+    PositionInGrid pos2 = piecePositionInGrid(&piece,2);
+    PositionInGrid pos3 = piecePositionInGrid(&piece,3);
+
+    // Check actual results versus expected.
+    CU_ASSERT( samePositionsInGrid(pos0, expectedPos0) );
+    CU_ASSERT( samePositionsInGrid(pos1, expectedPos1) );
+    CU_ASSERT( samePositionsInGrid(pos2, expectedPos2) );
+    CU_ASSERT( samePositionsInGrid(pos3, expectedPos3) );
+}
+
+void testGridSetCellsWithPiece()
+{
+    // Create a grid.
+    unsigned int numberOfRows = 10;
+    unsigned int numberOfColumns = 10;
+    Grid* grid = grid_new(numberOfRows, numberOfColumns);
+
+    // Create a piece;
+    Tetromino TETROMINO_I = tetrominosCollection->tetrominos[TETROMINO_SRS_I];
+    Piece piece = {{2,3},TETROMINO_I,ANGLE_0};
+
+    gridSetCellsWithPiece(grid, &piece);
+
+    /*for (rowIndex = 0 ; rowIndex < grid->numberOfRows; rowIndex++) {*/
+        /*for (columnIndex = 0 ; columnIndex < grid->numberOfColumns ; columnIndex++) {*/
+            /*grid->tetrominoTypes[rowIndex][columnIndex] = TETROMINO_VOID;*/
+        /*}*/
+    /*}*/
+
+}
+
 /*
 void test_set_row_to_zero()
 {
@@ -255,6 +301,7 @@ int main()
    ADD_SUITE_TO_REGISTRY(Suite_grid)
    ADD_TEST_TO_SUITE(Suite_grid,test_grid_new_destroy)
    ADD_TEST_TO_SUITE(Suite_grid,test_grid_set_get_cell)
+   ADD_TEST_TO_SUITE(Suite_grid,testPiecePositionInGrid)
    /*ADD_TEST_TO_SUITE(Suite_grid,test_set_row_to_zero)*/
    /*ADD_TEST_TO_SUITE(Suite_grid,test_set_grid_to_zero)*/
 

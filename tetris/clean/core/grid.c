@@ -61,3 +61,18 @@ TetrominoType grid_get_cell(Grid* grid, PositionInGrid pos)
 {
     return grid->tetrominoTypes[pos.rowIndex][pos.columnIndex];
 }
+
+void gridSetCellsWithPiece(Grid* grid, Piece* piece)
+{
+    unsigned squareIndex;
+    PositionInGrid pos;
+
+    for (squareIndex = 0 ; 
+         squareIndex < TETROMINO_NUMBER_OF_SQUARES ;
+         squareIndex++)
+    {
+        pos = piecePositionInGrid(piece, squareIndex);
+        grid_set_cell(grid, pos, piece->tetromino.type);
+    }
+}
+

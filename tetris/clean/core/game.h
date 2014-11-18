@@ -6,6 +6,7 @@
 
 typedef struct game {
     Grid* grid;
+    Piece* piece;
     TetrominosCollection* tetrominosCollection;
 } Game;
 
@@ -32,8 +33,5 @@ void gameDestroy(Game* game);
  * unsigned int game_get_score(Game* game);
  *
  * */
-
-/* Temporary, to remove from plublic API:just for testing tetris-gtk */
-void gameDemo(Game* game, Piece* piece);
 
 #endif

@@ -2,6 +2,7 @@
 #define TETRIS_GRID_H
 
 #include "tetromino.h"
+#include "piece.h"
 
 typedef struct grid {
     TetrominoType** tetrominoTypes;
@@ -15,5 +16,6 @@ void grid_destroy(Grid* grid);
 void grid_clear(Grid* grid);
 void grid_set_cell(Grid* grid, PositionInGrid pos, TetrominoType type);
 TetrominoType grid_get_cell(Grid* grid, PositionInGrid pos);
+void gridSetCellsWithPiece(Grid* grid, Piece* piece);
 
 #endif
