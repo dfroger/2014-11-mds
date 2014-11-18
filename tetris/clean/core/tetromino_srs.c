@@ -34,7 +34,6 @@ TetrominosCollection* getTetrominosCollectionSRS()
 
     TetrominosCollection* coll = (TetrominosCollection*) malloc(sizeof(TetrominosCollection));
     coll->numberOfTetrominos = numberOfTetrominosSRS; 
-    coll->gridSize = 4;
     coll->tetrominos = (Tetromino*) malloc(sizeof(Tetromino) * numberOfTetrominosSRS);
     memcpy(coll->tetrominos+TETROMINO_SRS_I, &tetrominoI, sizeof(Tetromino));
     memcpy(coll->tetrominos+TETROMINO_SRS_O, &tetrominoO, sizeof(Tetromino));

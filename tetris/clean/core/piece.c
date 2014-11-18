@@ -17,7 +17,7 @@ void pieceMoveToBottom(Piece* toBeMoved)
 
 void pieceRotate(Piece* toBeRotated)
 {
-    toBeRotated->angle = (toBeRotated->angle+1) % NUMBER_OF_TETROMINO_ROTATIONS;
+    toBeRotated->angle = (toBeRotated->angle+1) % TETROMINO_NUMBER_OF_ROTATIONS;
 }
 
 bool samePieces(Piece const left, Piece const right)

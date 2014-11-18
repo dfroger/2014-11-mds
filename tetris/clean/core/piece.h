@@ -6,8 +6,6 @@
 #include "tetromino.h"
 
 #define SPACE_DIMENSION 2
-//#define NUMBER_OF_TETROMINO_TYPES 7
-
 
 typedef struct piece Piece;
 struct piece
