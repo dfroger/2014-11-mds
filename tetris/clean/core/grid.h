@@ -12,4 +12,6 @@ typedef struct grid {
 Grid* grid_new(unsigned int numberOfRows, unsigned int numberOfColumns);
 void grid_destroy(Grid* grid);
 
+void grid_clear(Grid* grid);
+
 #endif

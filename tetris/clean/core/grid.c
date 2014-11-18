@@ -21,6 +21,9 @@ Grid* grid_new(unsigned int numberOfRows, unsigned int numberOfColumns)
             malloc(sizeof(TetrominoType) * numberOfColumns);
     }
 
+    /* clear grid, ie intialize it to TETROMINO_VOID */
+    grid_clear(grid);
+
     return grid;
 }
 
@@ -36,4 +39,15 @@ void grid_destroy(Grid* grid)
 
     /* Deallocate grid */
     free(grid);
+}
+
+void grid_clear(Grid* grid)
+{
+    unsigned int rowIndex;
+    unsigned int columnIndex;
+    for (rowIndex = 0 ; rowIndex < grid->numberOfRows; rowIndex++) {
+        for (columnIndex = 0 ; columnIndex < grid->numberOfColumns ; columnIndex++) {
+            grid->tetrominoTypes[rowIndex][columnIndex] = TETROMINO_VOID;
+        }
+    }
 }

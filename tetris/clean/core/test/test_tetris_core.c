@@ -46,9 +46,21 @@ if ( suite == NULL ) { \
 
 void test_grid_new_destroy()
 {
-    unsigned int numberOfRows = 16;
-    unsigned int numberOfColumns = 12;
+    // Create a grid.
+    unsigned int numberOfRows = 5;
+    unsigned int numberOfColumns = 3;
     Grid* grid = grid_new(numberOfRows, numberOfColumns);
+
+    // Check that values are initialized to TETROMINO_VOID
+    unsigned int rowIndex;
+    unsigned int columnIndex;
+    for (rowIndex = 0 ; rowIndex < grid->numberOfRows; rowIndex++) {
+        for (columnIndex = 0 ; columnIndex < grid->numberOfColumns ; columnIndex++) {
+            CU_ASSERT(grid->tetrominoTypes[rowIndex][columnIndex] == TETROMINO_VOID);
+        }
+    }
+
+    // Free memory.
     grid_destroy(grid);
 }
 
