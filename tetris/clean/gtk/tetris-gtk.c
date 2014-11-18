@@ -33,9 +33,6 @@ gboolean on_wgrid_expose_event(GtkWidget *wgrid, gpointer data)
 {
   cairo_t* cr = gdk_cairo_create(wgrid->window);
 
-  Tetromino TETROMINO_I = game->tetrominosCollection->tetrominos[TETROMINO_SRS_I];
-  Piece piece = {{5,3},TETROMINO_I,ANGLE_0};
-
   Grid* grid = game->grid;
   RGBColor color;
 
