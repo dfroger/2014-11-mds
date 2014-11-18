@@ -51,3 +51,13 @@ void grid_clear(Grid* grid)
         }
     }
 }
+
+void grid_set_cell(Grid* grid, PositionInGrid pos, TetrominoType type)
+{
+    grid->tetrominoTypes[pos.rowIndex][pos.columnIndex] = type;
+}
+
+TetrominoType grid_get_cell(Grid* grid, PositionInGrid pos)
+{
+    return grid->tetrominoTypes[pos.rowIndex][pos.columnIndex];
+}

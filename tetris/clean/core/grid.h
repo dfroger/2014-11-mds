@@ -13,5 +13,7 @@ Grid* grid_new(unsigned int numberOfRows, unsigned int numberOfColumns);
 void grid_destroy(Grid* grid);
 
 void grid_clear(Grid* grid);
+void grid_set_cell(Grid* grid, PositionInGrid pos, TetrominoType type);
+TetrominoType grid_get_cell(Grid* grid, PositionInGrid pos);
 
 #endif

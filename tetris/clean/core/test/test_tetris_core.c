@@ -47,8 +47,8 @@ if ( suite == NULL ) { \
 void test_grid_new_destroy()
 {
     // Create a grid.
-    unsigned int numberOfRows = 5;
-    unsigned int numberOfColumns = 3;
+    unsigned int numberOfRows = 3;
+    unsigned int numberOfColumns = 2;
     Grid* grid = grid_new(numberOfRows, numberOfColumns);
 
     // Check that values are initialized to TETROMINO_VOID
@@ -62,6 +62,52 @@ void test_grid_new_destroy()
 
     // Free memory.
     grid_destroy(grid);
+}
+
+void test_grid_set_get_cell()
+{
+    // Create a 3 rows grid.
+    unsigned int numberOfRows = 3;
+    unsigned int numberOfColumns = 2;
+    Grid* grid = grid_new(numberOfRows, numberOfColumns);
+
+    unsigned int columnIndex;
+    PositionInGrid pos;
+
+    // Set first row.
+    pos.rowIndex = 0;
+    for (columnIndex = 0 ; columnIndex < numberOfColumns ; columnIndex++) {
+        pos.columnIndex = columnIndex;
+        grid_set_cell(grid, pos, TETROMINO_SRS_O);
+    }
+
+    // Set Third row.
+    pos.rowIndex = 2;
+    for (columnIndex = 0 ; columnIndex < numberOfColumns ; columnIndex++) {
+        pos.columnIndex = columnIndex;
+        grid_set_cell(grid, pos, TETROMINO_SRS_I);
+    }
+
+    // Check first row.
+    pos.rowIndex = 0;
+    for (columnIndex = 0 ; columnIndex < numberOfColumns ; columnIndex++) {
+        pos.columnIndex = columnIndex;
+        CU_ASSERT( grid_get_cell(grid, pos) == TETROMINO_SRS_O);
+    }
+
+    // Check second row, it has been initialize to TETROMINO_VOID by grid_new.
+    pos.rowIndex = 1;
+    for (columnIndex = 0 ; columnIndex < numberOfColumns ; columnIndex++) {
+        pos.columnIndex = columnIndex;
+        CU_ASSERT( grid_get_cell(grid, pos) == TETROMINO_VOID);
+    }
+
+    // Check third row.
+    pos.rowIndex = 2;
+    for (columnIndex = 0 ; columnIndex < numberOfColumns ; columnIndex++) {
+        pos.columnIndex = columnIndex;
+        CU_ASSERT( grid_get_cell(grid, pos) == TETROMINO_SRS_I);
+    }
 }
 
 /*
@@ -189,6 +235,7 @@ int main()
    /* Create Grid test suite */
    ADD_SUITE_TO_REGISTRY(Suite_grid)
    ADD_TEST_TO_SUITE(Suite_grid,test_grid_new_destroy)
+   ADD_TEST_TO_SUITE(Suite_grid,test_grid_set_get_cell)
    /*ADD_TEST_TO_SUITE(Suite_grid,test_set_row_to_zero)*/
    /*ADD_TEST_TO_SUITE(Suite_grid,test_set_grid_to_zero)*/
 
