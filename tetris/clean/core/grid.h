@@ -4,7 +4,7 @@
 #include "tetromino.h"
 
 typedef struct grid {
-    TetrominoType* tetrominoTypes;
+    TetrominoType** tetrominoTypes;
     unsigned int numberOfRows;
     unsigned int numberOfColumns;
 } Grid;
