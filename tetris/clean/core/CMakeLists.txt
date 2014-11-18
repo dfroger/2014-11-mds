@@ -7,6 +7,7 @@ add_library(${TETRIS_CORE_LIBRARY} SHARED
     tetromino_srs.c
     positionInGrid.c
     grid.c
+    game.c
 )
 
 add_subdirectory(test)

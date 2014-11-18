@@ -6,6 +6,7 @@
 #include "piece.h"
 #include "tetromino_srs.h"
 #include "grid.h"
+#include "game.h"
 
 static size_t random_row_index;
 static size_t const ZERO = 0;
@@ -215,6 +216,24 @@ void testPieceRotate()
   CU_ASSERT( samePieces(piece,expectedPiece0) );
 }
 
+
+//////////////////////////////////////////////////////////////////////////////
+// Game suite tests
+//////////////////////////////////////////////////////////////////////////////
+
+void test_game_new_destroy()
+{
+    // Create a grid.
+    unsigned int numberOfRows = 3;
+    unsigned int numberOfColumns = 2;
+    Grid* grid = grid_new(numberOfRows, numberOfColumns);
+
+    // Create a game.
+    Game* game = game_new(grid, tetrominosCollection);
+
+    // Destroy the game.
+    game_destroy(game);
+}
 
 /* The main() function for setting up and running the tests.
  * Returns a CUE_SUCCESS on successful running, another
