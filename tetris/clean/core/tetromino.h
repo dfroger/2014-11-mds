@@ -13,6 +13,8 @@
 
 typedef unsigned int TetrominoType;
 
+extern TetrominoType const TETROMINO_VOID;
+
 typedef PositionInGrid TetrominoRotation[TETROMINO_NUMBER_OF_SQUARES];
 typedef TetrominoRotation TetrominoAllRotations[TETROMINO_NUMBER_OF_ROTATIONS];
 

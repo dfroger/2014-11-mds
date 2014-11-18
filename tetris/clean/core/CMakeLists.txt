@@ -6,6 +6,7 @@ add_library(${TETRIS_CORE_LIBRARY} SHARED
     tetromino.c
     tetromino_srs.c
     positionInGrid.c
+    grid.c
 )
 
 add_subdirectory(test)

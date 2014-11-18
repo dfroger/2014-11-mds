@@ -5,6 +5,7 @@
 
 #include "piece.h"
 #include "tetromino_srs.h"
+#include "grid.h"
 
 static size_t random_row_index;
 static size_t const ZERO = 0;
@@ -43,6 +44,13 @@ if ( suite == NULL ) { \
 // Grid suite tests
 //////////////////////////////////////////////////////////////////////////////
 
+void test_grid_new_destroy()
+{
+    unsigned int numberOfRows = 16;
+    unsigned int numberOfColumns = 12;
+    Grid* grid = grid_new(numberOfRows, numberOfColumns);
+    grid_destroy(grid);
+}
 
 /*
 void test_set_row_to_zero()
@@ -159,7 +167,7 @@ int main()
   CU_pSuite suiteTetromino = NULL;
   CU_pSuite suitePiece = NULL;
   CU_pSuite suitePoint = NULL;
-  /*CU_pSuite Suite_grid = NULL;*/
+  CU_pSuite Suite_grid = NULL;
 
 
    /* initialize the CUnit test registry */
@@ -167,7 +175,8 @@ int main()
       return CU_get_error();
 
    /* Create Grid test suite */
-   /*ADD_SUITE_TO_REGISTRY(Suite_grid)*/
+   ADD_SUITE_TO_REGISTRY(Suite_grid)
+   ADD_TEST_TO_SUITE(Suite_grid,test_grid_new_destroy)
    /*ADD_TEST_TO_SUITE(Suite_grid,test_set_row_to_zero)*/
    /*ADD_TEST_TO_SUITE(Suite_grid,test_set_grid_to_zero)*/
 
