@@ -4,15 +4,15 @@
 
 #include <gtk/gtk.h>
 
+#include "game.h"
 #include "rgb_color.h"
+#include "tetromino_srs.h"
 
 #define NPIXELS 24
-#define NROWS 3
-#define NCOLS 2
 
-static int const grid[NROWS][NCOLS] = { {1,1}, {2,2}, {1,1} };
+static Game* game;
 
-void fill_cell(cairo_t *cr, int tetromino_type, int i, int j)
+void fill_cell(cairo_t *cr, int tetromino_type, unsigned i, unsigned j)
 {
   const int line_width = 2;
   double x = j * NPIXELS + line_width;
@@ -42,14 +42,22 @@ void fill_cell(cairo_t *cr, int tetromino_type, int i, int j)
 
 gboolean on_wgrid_expose_event(GtkWidget *wgrid, gpointer data)
 {
-  printf("on_wgrid_expose_event\n");
-  
   cairo_t* cr = gdk_cairo_create(wgrid->window);
 
-  int irow, icol;
-  for (irow = 0; irow < NROWS; irow++) {
-    for (icol = 0; icol < NCOLS; icol++) {
-      fill_cell(cr, grid[irow][icol], irow, icol);
+  Tetromino TETROMINO_I = game->tetrominosCollection->tetrominos[TETROMINO_SRS_I];
+  Piece piece = {{5,3},TETROMINO_I,ANGLE_0};
+
+  gameDemo(game, &piece);
+  Grid* grid = game->grid;
+
+  unsigned int irow, icol;
+  for (irow = 0; irow < grid->numberOfRows; irow++) {
+    for (icol = 0; icol < grid->numberOfColumns; icol++) {
+      PositionInGrid pos;
+      pos.rowIndex = irow;
+      pos.columnIndex = icol;
+      TetrominoType type = grid_get_cell(grid,pos);
+      fill_cell(cr, type, irow, icol);
     }
   }
   cairo_destroy(cr);
@@ -58,13 +66,20 @@ gboolean on_wgrid_expose_event(GtkWidget *wgrid, gpointer data)
 
 int main(int argc, char* argv[]) 
 {
+  unsigned int numberOfRows = 16;
+  unsigned int numberOfColumns = 12;
+  Grid* grid = grid_new(numberOfRows, numberOfColumns);
+  TetrominosCollection* tetrominosCollection = getTetrominosCollectionSRS();
+
+  game = gameNew(grid, tetrominosCollection);
+
   gtk_init(&argc, &argv);
 
   GtkWidget* window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
 
   GtkWidget *wgrid = gtk_drawing_area_new();
-  gtk_widget_set_size_request(wgrid, NCOLS*NPIXELS, NROWS*NPIXELS);
+  gtk_widget_set_size_request(wgrid, numberOfColumns*NPIXELS, numberOfRows*NPIXELS);
   g_signal_connect(G_OBJECT(wgrid), "expose_event", G_CALLBACK(on_wgrid_expose_event), NULL);
 
   gtk_container_add(GTK_CONTAINER(window), wgrid);
@@ -73,6 +88,9 @@ int main(int argc, char* argv[])
   gtk_widget_show(window);
 
   gtk_main();
+
+  grid_destroy(grid);
+  gameDestroy(game);
 
   return EXIT_SUCCESS;
 }

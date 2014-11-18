@@ -229,10 +229,10 @@ void test_game_new_destroy()
     Grid* grid = grid_new(numberOfRows, numberOfColumns);
 
     // Create a game.
-    Game* game = game_new(grid, tetrominosCollection);
+    Game* game = gameNew(grid, tetrominosCollection);
 
     // Destroy the game.
-    game_destroy(game);
+    gameDestroy(game);
 }
 
 /* The main() function for setting up and running the tests.
