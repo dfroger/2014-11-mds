@@ -4,6 +4,9 @@
 #include "grid.h"
 #include "piece.h"
 
+typedef enum {PieceMovedOrRotated, PieceFailedToMoveOrRotate, 
+              NextPiece, GameOver} GameResult ;
+
 typedef struct game {
     Grid* grid;
     Piece* piece;
@@ -13,25 +16,10 @@ typedef struct game {
 Game* gameNew();
 void gameDestroy(Game* game);
 
-/* Game API we be something like this:
- *
- * enum GameEvent {
- *    PieceMovedOrRotated, 
- *    PieceFailedToMoveOrRotate, 
- *    ZeroRowSuppressed,
- *    OneRowSuppressed,
- *    TwoRowSuppressed,
- *    ThreeRowSuppressed,
- *    FourRowSuppressed,
- *    gameOver
- * }
- *
- * GameEvent game_move_right(Game* game);
- * GameEvent game_move_left(Game* game);
- * GameEvent game_move_bottom(Game* game);
- *
- * unsigned int game_get_score(Game* game);
- *
- * */
+GameResult gameMoveRight(Game* game);
+//GameResult gameMoveLeft(Game* game);
+//GameResult gameMoveBottom(Game* game);
+//GameResult gameMoveMaximumBottom(Game* game);
+//GameResult gameRotate(Game* game);
 
 #endif

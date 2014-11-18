@@ -29,3 +29,7 @@ void gameDestroy(Game* game)
 {
     free(game);
 }
+
+GameResult gameMoveRight(Game* game)
+{
+}
