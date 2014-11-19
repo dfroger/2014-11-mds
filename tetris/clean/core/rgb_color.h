@@ -15,9 +15,10 @@ extern RGBColor const RED;
 extern RGBColor const GREEN;
 extern RGBColor const BLUE;
 extern RGBColor const YELLOW;
-extern RGBColor const ORANG;
+extern RGBColor const ORANGE;
 extern RGBColor const TURQUOISE;
 extern RGBColor const PURPLE;
+extern RGBColor const CYAN;
 
 bool sameColors(RGBColor const left, RGBColor const right);
 

@@ -10,6 +10,7 @@ RGBColor const YELLOW = RGB(0xf3, 0x9c, 0x12);
 RGBColor const ORANGE = RGB(0xd3, 0x54, 0x00);
 RGBColor const TURQUOISE = RGB(0x1a, 0xbc, 0x9c);
 RGBColor const PURPLE = RGB(0x8e, 0x44, 0xad);
+RGBColor const CYAN = {0,1,1};
 
 bool sameColors(RGBColor const left, RGBColor const right)
 {

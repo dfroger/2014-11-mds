@@ -83,8 +83,8 @@ gboolean on_wgrid_expose_event(GtkWidget *wgrid, gpointer data)
 
 int main(int argc, char* argv[]) 
 {
-  unsigned int numberOfRows = 16;
-  unsigned int numberOfColumns = 12;
+  unsigned int numberOfRows = 20;
+  unsigned int numberOfColumns = 10;
 
   game = gameNew(numberOfRows, numberOfColumns);
 
