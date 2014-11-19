@@ -62,7 +62,7 @@ TetrominoType grid_get_cell(Grid* grid, PositionInGrid pos)
     return grid->tetrominoTypes[pos.rowIndex][pos.columnIndex];
 }
 
-void gridSetCellsWithPiece(Grid* grid, Piece* piece)
+void gridSetCellsWithPiece(Grid* grid, Piece* piece, TetrominoType type)
 {
     unsigned squareIndex;
     PositionInGrid pos;
@@ -76,3 +76,34 @@ void gridSetCellsWithPiece(Grid* grid, Piece* piece)
     }
 }
 
+bool gridPositionIsContainedInGrid(Grid* grid, PositionInGrid pos)
+{
+    return 0 <= pos.rowIndex && pos.rowIndex < grid->numberOfRows &&
+           0 <= pos.columnIndex && pos.columnIndex < grid->numberOfColumns;
+}
+
+/*
+bool gridCanSetCell(Grid* grid, PositionInGrid pos)
+{
+    int rowIndex = pos.rowIndex;
+    int colIndex = pos.columnIndex;
+
+
+}
+*/
+
+/*
+bool gridCanAcceptPiece(Grid* grid, Piece* piece)
+{
+    unsigned squareIndex;
+    PositionInGrid pos;
+
+    for (squareIndex = 0 ; 
+         squareIndex < TETROMINO_NUMBER_OF_SQUARES ;
+         squareIndex++)
+    {
+        pos = piecePositionInGrid(piece, squareIndex);
+        grid_set_cell(grid, pos, piece->tetromino.type);
+    }
+}
+*/

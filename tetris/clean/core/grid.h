@@ -1,6 +1,8 @@
 #ifndef TETRIS_GRID_H
 #define TETRIS_GRID_H
 
+#include <stdbool.h>
+
 #include "tetromino.h"
 #include "piece.h"
 
@@ -16,6 +18,11 @@ void grid_destroy(Grid* grid);
 void grid_clear(Grid* grid);
 void grid_set_cell(Grid* grid, PositionInGrid pos, TetrominoType type);
 TetrominoType grid_get_cell(Grid* grid, PositionInGrid pos);
-void gridSetCellsWithPiece(Grid* grid, Piece* piece);
+void gridSetCellsWithPiece(Grid* grid, Piece* piece, TetrominoType type);
+
+bool gridPositionIsContainedInGrid(Grid* grid, PositionInGrid pos);
+
+//bool gridCanSetCell(Grid grid*, PositionInGrid pos);
+//bool gridCanSetCellsWithPiece(Grid* grid, Piece* piece);
 
 #endif

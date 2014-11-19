@@ -7,7 +7,7 @@ static void gameNewPiece(Game* game)
 {
     TetrominoType type = rand() % game->tetrominosCollection->numberOfTetrominos;
     game->piece->tetromino = game->tetrominosCollection->tetrominos[type];
-    gridSetCellsWithPiece(game->grid, game->piece);
+    gridSetCellsWithPiece(game->grid, game->piece, game->piece->tetromino.type);
 }
 
 Game* gameNew(Grid* grid, TetrominosCollection* tetrominosCollection)
