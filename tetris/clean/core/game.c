@@ -36,34 +36,40 @@ void gameDestroy(Game* game)
 
 void gameTryToMoveRight(Game* game)
 {
-    gridSetCellsWithPiece(game->grid, 
-                          game->piece,
-                          TETROMINO_VOID);
-
-    pieceMoveToRight(game->piece);
-
-    if (! gridCanSetCellsWithPiece(game->grid, game->piece)) {
-        pieceMoveToLeft(game->piece);
-    }
-
-    gridSetCellsWithPiece(game->grid, 
-                          game->piece,
-                          game->piece->tetromino.type);
+    gameTryToMove(game,pieceMoveToRight,pieceMoveToLeft);
 }
 
 void gameTryToMoveLeft(Game* game)
+{
+    gameTryToMove(game,pieceMoveToLeft,pieceMoveToRight);
+}
+
+void gameTryToMoveBottom(Game* game)
+{
+    gameTryToMove(game,pieceMoveToBottom,pieceMoveToTop);
+}
+
+void gameTryToRotateClockwise(Game* game)
+{
+    gameTryToMove(game,pieceRotateClockwise,pieceRotateCounterClockwise);
+}
+
+void gameTryToMove(Game* game,void (*move)(Piece*),void (*unmove)(Piece*))
 {
     gridSetCellsWithPiece(game->grid, 
                           game->piece,
                           TETROMINO_VOID);
 
-    pieceMoveToLeft(game->piece);
+    move(game->piece);
 
     if (! gridCanSetCellsWithPiece(game->grid, game->piece)) {
-        pieceMoveToRight(game->piece);
+        unmove(game->piece);
     }
 
     gridSetCellsWithPiece(game->grid, 
                           game->piece,
                           game->piece->tetromino.type);
+
 }
+
+

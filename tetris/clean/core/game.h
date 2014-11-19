@@ -13,9 +13,11 @@ typedef struct game {
 Game* gameNew();
 void gameDestroy(Game* game);
 
+void gameTryToMove(Game* game, void (*move)(Piece*), void (*unmove)(Piece*));
 void gameTryToMoveRight(Game* game);
-//void gameTryToMoveLeft(Game* game);
-//void gameTryToMoveBottom(Game* game);
+void gameTryToMoveLeft(Game* game);
+void gameTryToMoveBottom(Game* game);
+void gameTryToRotateClockwise(Game* game);
 //void gameTryToMoveMaximumBottom(Game* game);
 //void gameTryToRotate(Game* game);
 

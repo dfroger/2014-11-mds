@@ -19,7 +19,9 @@ struct piece
 void pieceMoveToLeft(Piece* toBeMoved);
 void pieceMoveToRight(Piece* toBeMoved);
 void pieceMoveToBottom(Piece* toBeMoved);
-void pieceRotate(Piece* toBeRotated);
+void pieceMoveToTop(Piece* toBeMoved);
+void pieceRotateClockwise(Piece* toBeRotated);
+void pieceRotateCounterClockwise(Piece* toBeRotated);
 bool samePieces(Piece const left, Piece const right);
 PositionInGrid piecePositionInGrid(Piece* piece, unsigned int squareIndex);
 

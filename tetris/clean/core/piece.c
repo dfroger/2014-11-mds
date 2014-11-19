@@ -15,9 +15,19 @@ void pieceMoveToBottom(Piece* toBeMoved)
   toBeMoved->topLeftCorner.rowIndex++;
 }
 
-void pieceRotate(Piece* toBeRotated)
+void pieceMoveToTop(Piece* toBeMoved)
+{
+  toBeMoved->topLeftCorner.rowIndex--;
+}
+
+void pieceRotateClockwise(Piece* toBeRotated)
 {
     toBeRotated->angle = (toBeRotated->angle+1) % TETROMINO_NUMBER_OF_ROTATIONS;
+}
+
+void pieceRotateCounterClockwise(Piece* toBeRotated)
+{
+    toBeRotated->angle = (toBeRotated->angle+3) % TETROMINO_NUMBER_OF_ROTATIONS;
 }
 
 bool samePieces(Piece const left, Piece const right)
@@ -37,4 +47,8 @@ PositionInGrid piecePositionInGrid(Piece* piece, unsigned int squareIndex)
        piece->tetromino.allRotations[piece->angle][squareIndex].columnIndex;
 
     return pos;
+}
+
+void pieceUndoLastMovement(Piece* piece)
+{
 }

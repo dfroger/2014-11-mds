@@ -418,7 +418,7 @@ void testPieceMoveToBottom()
   CU_ASSERT( samePieces(piece,expectedBottomPiece) );
 }
 
-void testPieceRotate()
+void testPieceRotateClockwise()
 {
   Tetromino TETROMINO_I = tetrominosCollection->tetrominos[TETROMINO_SRS_I];
 
@@ -429,16 +429,16 @@ void testPieceRotate()
   
   Piece piece = {{5,3},TETROMINO_I,ANGLE_0};
 
-  pieceRotate(&piece);
+  pieceRotateClockwise(&piece);
   CU_ASSERT( samePieces(piece,expectedPiece90) );
 
-  pieceRotate(&piece);
+  pieceRotateClockwise(&piece);
   CU_ASSERT( samePieces(piece,expectedPiece180) );
 
-  pieceRotate(&piece);
+  pieceRotateClockwise(&piece);
   CU_ASSERT( samePieces(piece,expectedPiece270) );
 
-  pieceRotate(&piece);
+  pieceRotateClockwise(&piece);
   CU_ASSERT( samePieces(piece,expectedPiece0) );
 }
 
@@ -497,7 +497,7 @@ int main()
    ADD_TEST_TO_SUITE(suitePiece, testPieceMoveToLeft)
    ADD_TEST_TO_SUITE(suitePiece, testPieceMoveToRight)
    ADD_TEST_TO_SUITE(suitePiece, testPieceMoveToBottom)
-   ADD_TEST_TO_SUITE(suitePiece, testPieceRotate)
+   ADD_TEST_TO_SUITE(suitePiece, testPieceRotateClockwise)
 
    /* Run all tests using the CUnit Basic interface */
    CU_basic_set_mode(CU_BRM_VERBOSE);

@@ -20,13 +20,16 @@ gboolean on_key_press_event(GtkWidget *widget,
 {
   switch (event->keyval) {
   case GDK_Left:
+    gameTryToMoveLeft(game);
     break;
   case GDK_Right:
     gameTryToMoveRight(game);
     break;
   case GDK_Up:
+    gameTryToRotateClockwise(game);
     break;
   case GDK_Down:
+    gameTryToMoveBottom(game);
     break;
   case GDK_KEY_space:
     break;
