@@ -32,6 +32,8 @@ Game* gameNew(size_t numberOfRows, size_t numberOfColumns)
 
 void gameDestroy(Game* game)
 {
+    free(game->tetrominosCollection);
+    free(game->piece);
     grid_destroy(game->grid);
     free(game);
 }
