@@ -49,6 +49,3 @@ PositionInGrid piecePositionInGrid(Piece* piece, unsigned int squareIndex)
     return pos;
 }
 
-void pieceUndoLastMovement(Piece* piece)
-{
-}
