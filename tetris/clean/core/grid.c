@@ -72,7 +72,7 @@ void gridSetCellsWithPiece(Grid* grid, Piece* piece, TetrominoType type)
          squareIndex++)
     {
         pos = piecePositionInGrid(piece, squareIndex);
-        grid_set_cell(grid, pos, piece->tetromino.type);
+        grid_set_cell(grid, pos, type);
     }
 }
 

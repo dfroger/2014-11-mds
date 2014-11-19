@@ -10,6 +10,7 @@ typedef enum {PieceMovedOrRotated, PieceFailedToMoveOrRotate,
 typedef struct game {
     Grid* grid;
     Piece* piece;
+    Piece* pieceMovedOrRotated;
     TetrominosCollection* tetrominosCollection;
 } Game;
 

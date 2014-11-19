@@ -3,6 +3,7 @@
 #include <stdio.h>
 
 #include <gtk/gtk.h>
+#include <gdk/gdkkeysyms.h>
 
 #include "game.h"
 #include "rgb_color.h"
@@ -11,6 +12,28 @@
 #define NPIXELS 24
 
 static Game* game;
+static GtkWidget* window;
+
+gboolean on_key_press_event(GtkWidget *widget,
+                            GdkEventKey *event,
+                            gpointer data) {
+  switch (event->keyval) {
+  case GDK_Left:
+    break;
+  case GDK_Right:
+    gameMoveRight(game);
+    break;
+  case GDK_Up:
+    break;
+  case GDK_Down:
+    break;
+  case GDK_KEY_space:
+    break;
+  }
+
+  gtk_widget_queue_draw(window);
+  return TRUE;
+}
 
 void fill_cell(cairo_t *cr, RGBColor color, unsigned i, unsigned j)
 {
@@ -65,8 +88,9 @@ int main(int argc, char* argv[])
 
   gtk_init(&argc, &argv);
 
-  GtkWidget* window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
+  window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  g_signal_connect(G_OBJECT(window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
+  g_signal_connect(G_OBJECT(window), "key_press_event", G_CALLBACK(on_key_press_event), NULL);
 
   GtkWidget *wgrid = gtk_drawing_area_new();
   gtk_widget_set_size_request(wgrid, numberOfColumns*NPIXELS, numberOfRows*NPIXELS);
