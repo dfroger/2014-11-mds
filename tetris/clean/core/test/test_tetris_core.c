@@ -447,6 +447,7 @@ void testPieceRotateClockwise()
 // Game suite tests
 //////////////////////////////////////////////////////////////////////////////
 
+
 void test_game_new_destroy()
 {
     // Create a grid.
@@ -461,6 +462,32 @@ void test_game_new_destroy()
     gameDestroy(game);
 }
 
+
+//////////////////////////////////////////////////////////////////////////////
+// Functional suite tests
+//////////////////////////////////////////////////////////////////////////////
+
+void testRealGame()
+{
+    unsigned int numberOfRows = 20;
+    unsigned int numberOfColumns = 10;
+    Game* game = gameNew(numberOfRows, numberOfColumns);
+
+    CU_ASSERT(game->piece->tetromino.type == TETROMINO_SRS_J)
+
+    gameNewPiece(game);
+    CU_ASSERT(game->piece->tetromino.type == TETROMINO_SRS_L)
+
+    gameNewPiece(game);
+    CU_ASSERT(game->piece->tetromino.type == TETROMINO_SRS_J)
+
+    gameNewPiece(game);
+    CU_ASSERT(game->piece->tetromino.type == TETROMINO_SRS_L)
+
+    gameDestroy(game);
+}
+
+
 /* The main() function for setting up and running the tests.
  * Returns a CUE_SUCCESS on successful running, another
  * CUnit error code on failure.
@@ -471,6 +498,7 @@ int main()
   CU_pSuite suitePiece = NULL;
   CU_pSuite suitePoint = NULL;
   CU_pSuite Suite_grid = NULL;
+  CU_pSuite suiteFunctional = NULL;
 
 
    /* initialize the CUnit test registry */
@@ -498,6 +526,10 @@ int main()
    ADD_TEST_TO_SUITE(suitePiece, testPieceMoveToRight)
    ADD_TEST_TO_SUITE(suitePiece, testPieceMoveToBottom)
    ADD_TEST_TO_SUITE(suitePiece, testPieceRotateClockwise)
+
+   /* Create functional test suite */
+   ADD_SUITE_TO_REGISTRY(suiteFunctional)
+   ADD_TEST_TO_SUITE(suiteFunctional, testRealGame)
 
    /* Run all tests using the CUnit Basic interface */
    CU_basic_set_mode(CU_BRM_VERBOSE);
