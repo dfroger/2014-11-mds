@@ -5,6 +5,24 @@
 #include "tetromino_srs.h"
 #include <time.h>
 
+#ifdef WITH_MOCK
+static size_t numberOfNoMoreRandomTetrominoType = 2;
+static size_t noMoreRandomTetrominoTypeIndex = 0;
+static TetrominoType noMoreRandomTetrominoType[2] = {TETROMINO_SRS_J, TETROMINO_SRS_L};
+static TetrominoType getRandomTetrominoType()
+{
+    TetrominoType tetrominoType = noMoreRandomTetrominoType[noMoreRandomTetrominoTypeIndex];
+    noMoreRandomTetrominoTypeIndex = (noMoreRandomTetrominoTypeIndex + 1) % 
+                                     numberOfNoMoreRandomTetrominoType;
+    return tetrominoType;
+}
+#else
+static TetrominoType getRandomTetrominoType()
+{
+    return TetrominoType type = rand() % game->tetrominosCollection->numberOfTetrominos;
+}
+#endif
+
 void gameNewPiece(Game* game)
 {
     game->piece->topLeftCorner.rowIndex = 0;
@@ -12,7 +30,7 @@ void gameNewPiece(Game* game)
                                               TETROMINO_GRID_SIZE)/2;
     game->piece->angle = ANGLE_0;
     
-    TetrominoType type = rand() % game->tetrominosCollection->numberOfTetrominos;
+    TetrominoType type = getRandomTetrominoType();
     game->piece->tetromino = game->tetrominosCollection->tetrominos[type];
     
     gridSetCellsWithPiece(game->grid, game->piece, game->piece->tetromino.type);
