@@ -26,10 +26,6 @@ Game* gameNew(Grid* grid, TetrominosCollection* tetrominosCollection)
     game->piece->angle = ANGLE_0;
     gameNewPiece(game);
 
-    // Initialize pieceMovedOrRotated
-    game->pieceMovedOrRotated = (Piece*) malloc(sizeof(Piece));
-    memcpy(game->pieceMovedOrRotated, game->piece, sizeof(Piece));
-
     return game;
 }
 
@@ -38,37 +34,36 @@ void gameDestroy(Game* game)
     free(game);
 }
 
-GameResult gameMoveRight(Game* game)
+void gameTryToMoveRight(Game* game)
 {
-    pieceMoveToRight(game->pieceMovedOrRotated);
-
-    PositionInGrid pos = piecePositionInGrid(game->piece,0);
-
-    // Remove old piece from grid.
     gridSetCellsWithPiece(game->grid, 
                           game->piece,
                           TETROMINO_VOID);
 
-    if (gridCanSetCellsWithPiece(game->grid, game->pieceMovedOrRotated)) {
-        // Add new piece to grid.
-        gridSetCellsWithPiece(game->grid, 
-                              game->pieceMovedOrRotated,
-                              game->pieceMovedOrRotated->tetromino.type);
+    pieceMoveToRight(game->piece);
 
-        // Update old piece with new.
-        memcpy(game->piece, game->pieceMovedOrRotated, sizeof(Piece));
-
-        return PieceMovedOrRotated;
-
-    } else {
-        // Restaure old piece to grid.
-        gridSetCellsWithPiece(game->grid, 
-                              game->piece,
-                              game->piece->tetromino.type);
-
-        // Update new piece with old.
-        memcpy(game->pieceMovedOrRotated, game->piece, sizeof(Piece));
-
-        return PieceFailedToMoveOrRotate;
+    if (! gridCanSetCellsWithPiece(game->grid, game->piece)) {
+        pieceMoveToLeft(game->piece);
     }
+
+    gridSetCellsWithPiece(game->grid, 
+                          game->piece,
+                          game->piece->tetromino.type);
+}
+
+void gameTryToMoveLeft(Game* game)
+{
+    gridSetCellsWithPiece(game->grid, 
+                          game->piece,
+                          TETROMINO_VOID);
+
+    pieceMoveToLeft(game->piece);
+
+    if (! gridCanSetCellsWithPiece(game->grid, game->piece)) {
+        pieceMoveToRight(game->piece);
+    }
+
+    gridSetCellsWithPiece(game->grid, 
+                          game->piece,
+                          game->piece->tetromino.type);
 }

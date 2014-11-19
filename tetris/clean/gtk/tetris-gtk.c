@@ -16,12 +16,13 @@ static GtkWidget* window;
 
 gboolean on_key_press_event(GtkWidget *widget,
                             GdkEventKey *event,
-                            gpointer data) {
+                            gpointer data)
+{
   switch (event->keyval) {
   case GDK_Left:
     break;
   case GDK_Right:
-    gameMoveRight(game);
+    gameTryToMoveRight(game);
     break;
   case GDK_Up:
     break;
