@@ -29,7 +29,8 @@ gboolean on_key_press_event(GtkWidget *widget,
     gameTryToRotateClockwise(game);
     break;
   case GDK_Down:
-    gameTryToMoveBottom(game);
+    if (!gameTryToMoveBottom(game))
+      gameNewPiece(game);
     break;
   case GDK_KEY_space:
     break;

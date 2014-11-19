@@ -5,10 +5,16 @@
 #include "tetromino_srs.h"
 #include <time.h>
 
-static void gameNewPiece(Game* game)
+void gameNewPiece(Game* game)
 {
+    game->piece->topLeftCorner.rowIndex = 0;
+    game->piece->topLeftCorner.columnIndex = (game->grid->numberOfColumns - 
+                                              TETROMINO_GRID_SIZE)/2;
+    game->piece->angle = ANGLE_0;
+    
     TetrominoType type = rand() % game->tetrominosCollection->numberOfTetrominos;
     game->piece->tetromino = game->tetrominosCollection->tetrominos[type];
+    
     gridSetCellsWithPiece(game->grid, game->piece, game->piece->tetromino.type);
 }
 
@@ -21,10 +27,6 @@ Game* gameNew(size_t numberOfRows, size_t numberOfColumns)
 
     // Initialize piece
     game->piece = (Piece*) malloc(sizeof(Piece));
-    game->piece->topLeftCorner.rowIndex = 0;
-    game->piece->topLeftCorner.columnIndex = (game->grid->numberOfColumns - 
-                                              TETROMINO_GRID_SIZE)/2;
-    game->piece->angle = ANGLE_0;
     gameNewPiece(game);
 
     return game;
@@ -38,42 +40,46 @@ void gameDestroy(Game* game)
     free(game);
 }
 
-void gameTryToMoveRight(Game* game)
+bool gameTryToMoveRight(Game* game)
 {
-    gameTryToMove(game,pieceMoveToRight,pieceMoveToLeft);
+  return  gameTryToMove(game,pieceMoveToRight,pieceMoveToLeft);
 }
 
-void gameTryToMoveLeft(Game* game)
+bool gameTryToMoveLeft(Game* game)
 {
-    gameTryToMove(game,pieceMoveToLeft,pieceMoveToRight);
+  return gameTryToMove(game,pieceMoveToLeft,pieceMoveToRight);
 }
 
-void gameTryToMoveBottom(Game* game)
+bool gameTryToMoveBottom(Game* game)
 {
-    gameTryToMove(game,pieceMoveToBottom,pieceMoveToTop);
+  return gameTryToMove(game,pieceMoveToBottom,pieceMoveToTop);
 }
 
-void gameTryToRotateClockwise(Game* game)
+bool gameTryToRotateClockwise(Game* game)
 {
-    gameTryToMove(game,pieceRotateClockwise,pieceRotateCounterClockwise);
+  return gameTryToMove(game,pieceRotateClockwise,pieceRotateCounterClockwise);
 }
 
-void gameTryToMove(Game* game,void (*move)(Piece*),void (*unmove)(Piece*))
+bool gameTryToMove(Game* game,void (*move)(Piece*),void (*unmove)(Piece*))
 {
-    gridSetCellsWithPiece(game->grid, 
-                          game->piece,
-                          TETROMINO_VOID);
+  bool managedToMove = true;
 
-    move(game->piece);
+  gridSetCellsWithPiece(game->grid, 
+                        game->piece,
+                        TETROMINO_VOID);
 
-    if (! gridCanSetCellsWithPiece(game->grid, game->piece)) {
-        unmove(game->piece);
-    }
+  move(game->piece);
 
-    gridSetCellsWithPiece(game->grid, 
-                          game->piece,
-                          game->piece->tetromino.type);
+  if (! gridCanSetCellsWithPiece(game->grid, game->piece)) {
+      managedToMove = false;
+      unmove(game->piece);
+  }
 
+  gridSetCellsWithPiece(game->grid, 
+                        game->piece,
+                        game->piece->tetromino.type);
+
+  return managedToMove;
 }
 
 

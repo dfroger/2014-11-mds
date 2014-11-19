@@ -10,15 +10,14 @@ typedef struct game {
     TetrominosCollection* tetrominosCollection;
 } Game;
 
+void gameNewPiece(Game* game);
 Game* gameNew(size_t numberOfRows, size_t numberOfColumns);
 void gameDestroy(Game* game);
 
-void gameTryToMove(Game* game, void (*move)(Piece*), void (*unmove)(Piece*));
-void gameTryToMoveRight(Game* game);
-void gameTryToMoveLeft(Game* game);
-void gameTryToMoveBottom(Game* game);
-void gameTryToRotateClockwise(Game* game);
-//void gameTryToMoveMaximumBottom(Game* game);
-//void gameTryToRotate(Game* game);
+bool gameTryToMove(Game* game, void (*move)(Piece*), void (*unmove)(Piece*));
+bool gameTryToMoveRight(Game* game);
+bool gameTryToMoveLeft(Game* game);
+bool gameTryToMoveBottom(Game* game);
+bool gameTryToRotateClockwise(Game* game);
 
 #endif
