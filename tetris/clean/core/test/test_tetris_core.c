@@ -180,7 +180,7 @@ void testGridSetCellsWithPiece()
     }
 }
 
-void testGridPositionIsContainedInGrid()
+void TestGridCellIsInGrid()
 {
     // Create a grid.
     unsigned int numberOfRows = 2;
@@ -196,7 +196,7 @@ void testGridPositionIsContainedInGrid()
         pos.rowIndex = rowIndex;
         for (columnIndex = 0 ; columnIndex < numberOfColumns ; columnIndex++) {
             pos.columnIndex = columnIndex;
-            CU_ASSERT_TRUE(gridPositionIsContainedInGrid(grid, pos));
+            CU_ASSERT_TRUE(gridCellIsInGrid(grid, pos));
         }
     }
 
@@ -204,29 +204,66 @@ void testGridPositionIsContainedInGrid()
     pos.rowIndex = -1;
     for (columnIndex = 0 ; columnIndex < numberOfColumns ; columnIndex++) {
         pos.columnIndex = columnIndex;
-        CU_ASSERT_FALSE(gridPositionIsContainedInGrid(grid, pos));
+        CU_ASSERT_FALSE(gridCellIsInGrid(grid, pos));
     }
 
     // Check row out of grid from bottom.
     pos.rowIndex = numberOfRows;
     for (columnIndex = 0 ; columnIndex < numberOfColumns ; columnIndex++) {
         pos.columnIndex = columnIndex;
-        CU_ASSERT_FALSE(gridPositionIsContainedInGrid(grid, pos));
+        CU_ASSERT_FALSE(gridCellIsInGrid(grid, pos));
     }
 
     // Check column out of grid from left.
     pos.columnIndex = -1;
     for (rowIndex = 0 ; rowIndex < numberOfRows; rowIndex++) {
         pos.rowIndex = rowIndex;
-        CU_ASSERT_FALSE(gridPositionIsContainedInGrid(grid, pos));
+        CU_ASSERT_FALSE(gridCellIsInGrid(grid, pos));
     }
 
     // Check column out of grid from right.
     pos.columnIndex = numberOfColumns;
     for (rowIndex = 0 ; rowIndex < numberOfRows; rowIndex++) {
         pos.rowIndex = rowIndex;
-        CU_ASSERT_FALSE(gridPositionIsContainedInGrid(grid, pos));
+        CU_ASSERT_FALSE(gridCellIsInGrid(grid, pos));
     }
+}
+
+void TestGridCellIsInGridAndIsVoid()
+{
+    // Create a grid.
+    unsigned int numberOfRows = 2;
+    unsigned int numberOfColumns = 3;
+    Grid* grid = grid_new(numberOfRows, numberOfColumns);
+
+    // Grid has been initialize to TETROMINO_VOID, modify one cell type.
+    PositionInGrid posNotVoid = {1,2};
+    grid_set_cell(grid, posNotVoid, TETROMINO_SRS_O);
+
+    unsigned int rowIndex;
+    unsigned int columnIndex;
+    PositionInGrid pos;
+    bool isInGridAndIsVoid;
+
+    // Check for cells in grid.
+    for (rowIndex = 0 ; rowIndex < numberOfRows; rowIndex++) {
+        pos.rowIndex = rowIndex;
+        for (columnIndex = 0 ; columnIndex < numberOfColumns ; columnIndex++) {
+            pos.columnIndex = columnIndex;
+            isInGridAndIsVoid = gridCellIsInGridAndIsVoid(grid,pos);
+            if (samePositionsInGrid(pos,posNotVoid)) {
+                CU_ASSERT_FALSE(isInGridAndIsVoid);
+            } else {
+                CU_ASSERT_TRUE(isInGridAndIsVoid);
+            }
+        }
+    }
+
+    // Check for cell NOT in grid.
+    pos.rowIndex = 5;
+    pos.columnIndex = 5;
+    isInGridAndIsVoid = gridCellIsInGridAndIsVoid(grid,pos);
+    CU_ASSERT_FALSE(isInGridAndIsVoid);
 }
 
 
@@ -376,7 +413,7 @@ int main()
    ADD_TEST_TO_SUITE(Suite_grid,test_grid_set_get_cell)
    ADD_TEST_TO_SUITE(Suite_grid,testPiecePositionInGrid)
    ADD_TEST_TO_SUITE(Suite_grid,testGridSetCellsWithPiece)
-   ADD_TEST_TO_SUITE(Suite_grid,testGridPositionIsContainedInGrid)
+   ADD_TEST_TO_SUITE(Suite_grid,TestGridCellIsInGrid)
    /*ADD_TEST_TO_SUITE(Suite_grid,test_set_row_to_zero)*/
    /*ADD_TEST_TO_SUITE(Suite_grid,test_set_grid_to_zero)*/
 

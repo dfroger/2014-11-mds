@@ -20,9 +20,9 @@ void grid_set_cell(Grid* grid, PositionInGrid pos, TetrominoType type);
 TetrominoType grid_get_cell(Grid* grid, PositionInGrid pos);
 void gridSetCellsWithPiece(Grid* grid, Piece* piece, TetrominoType type);
 
-bool gridPositionIsContainedInGrid(Grid* grid, PositionInGrid pos);
+bool gridCellIsInGrid(Grid* grid, PositionInGrid pos);
 
-//bool gridCanSetCell(Grid grid*, PositionInGrid pos);
+bool gridCellIsInGridAndIsVoid(Grid* grid, PositionInGrid pos);
 //bool gridCanSetCellsWithPiece(Grid* grid, Piece* piece);
 
 #endif

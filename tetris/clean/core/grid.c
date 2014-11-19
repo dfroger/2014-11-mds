@@ -76,21 +76,16 @@ void gridSetCellsWithPiece(Grid* grid, Piece* piece, TetrominoType type)
     }
 }
 
-bool gridPositionIsContainedInGrid(Grid* grid, PositionInGrid pos)
+bool gridCellIsInGrid(Grid* grid, PositionInGrid pos)
 {
     return 0 <= pos.rowIndex && pos.rowIndex < grid->numberOfRows &&
            0 <= pos.columnIndex && pos.columnIndex < grid->numberOfColumns;
 }
 
-/*
-bool gridCanSetCell(Grid* grid, PositionInGrid pos)
+bool gridCellIsInGridAndIsVoid(Grid* grid, PositionInGrid pos)
 {
-    int rowIndex = pos.rowIndex;
-    int colIndex = pos.columnIndex;
-
-
+    return gridCellIsInGrid(grid,pos) && grid_get_cell(grid, pos) == TETROMINO_VOID;
 }
-*/
 
 /*
 bool gridCanAcceptPiece(Grid* grid, Piece* piece)
