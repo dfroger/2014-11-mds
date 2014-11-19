@@ -23,6 +23,6 @@ void gridSetCellsWithPiece(Grid* grid, Piece* piece, TetrominoType type);
 bool gridCellIsInGrid(Grid* grid, PositionInGrid pos);
 
 bool gridCellIsInGridAndIsVoid(Grid* grid, PositionInGrid pos);
-//bool gridCanSetCellsWithPiece(Grid* grid, Piece* piece);
+bool gridCanSetCellsWithPiece(Grid* grid, Piece* piece);
 
 #endif

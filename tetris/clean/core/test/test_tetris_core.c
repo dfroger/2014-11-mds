@@ -266,6 +266,76 @@ void TestGridCellIsInGridAndIsVoid()
     CU_ASSERT_FALSE(isInGridAndIsVoid);
 }
 
+void TestGridCanSetCellsWithPiece()
+{
+
+    /* Reminder on tetromino_srs_i at ANGLE_0 and ANGLE_90:
+
+    T---+---+---+---+
+    |   |   |  9|   |   T: topLeftCorner position in grid
+    +---+---+---+---+   0: tetromino cells a ANGLE_0
+    | 0 | 0 | 01| 0 |   9: tetromino cells a ANGLE_90
+    +---+---+---+---+
+    |   |   |  9|   |
+    +---+---+---+---+
+    |   |   |  9|   |
+    +---+---+---+---+
+    */
+
+    // Create a grid.
+    unsigned int numberOfRows = 10;
+    unsigned int numberOfColumns = 10;
+    Grid* grid = grid_new(numberOfRows, numberOfColumns);
+
+    Tetromino TETROMINO_I = tetrominosCollection->tetrominos[TETROMINO_SRS_I];
+
+    // For now, the grid has only void cells.
+
+    // Ok, in grid and void.
+    Piece piece0 = {{0,0},TETROMINO_I,ANGLE_0};
+    CU_ASSERT_TRUE( gridCanSetCellsWithPiece(grid, &piece0) )
+
+    // Ok, still in grid (in the first row).
+    Piece piece1 = {{-1,0},TETROMINO_I,ANGLE_0};
+    CU_ASSERT_TRUE( gridCanSetCellsWithPiece(grid, &piece1) )
+
+    // No more in grid.
+    Piece piece2 = {{-2,0},TETROMINO_I,ANGLE_0};
+    CU_ASSERT_FALSE( gridCanSetCellsWithPiece(grid, &piece2) )
+
+    // Ok, in grid and void.
+    Piece piece3 = {{5,0},TETROMINO_I,ANGLE_90};
+    CU_ASSERT_TRUE( gridCanSetCellsWithPiece(grid, &piece3) )
+
+    // Ok, still in grid (in the first column).
+    Piece piece4 = {{5,-2},TETROMINO_I,ANGLE_90};
+    CU_ASSERT_TRUE( gridCanSetCellsWithPiece(grid, &piece4) )
+
+    // No more in grid.
+    Piece piece5 = {{5,-3},TETROMINO_I,ANGLE_90};
+    CU_ASSERT_FALSE( gridCanSetCellsWithPiece(grid, &piece5) )
+
+    // Now, fill the last grid row with non-void tetrominos.
+    PositionInGrid pos;
+    unsigned int columnIndex;
+    pos.rowIndex = numberOfRows-1 ;
+    for (columnIndex = 0 ; columnIndex < grid->numberOfColumns ; columnIndex++) {
+        pos.columnIndex = columnIndex;
+        grid_set_cell(grid, pos, TETROMINO_SRS_I);
+    }
+
+    // Ok, in grid and void.
+    Piece piece6 = {{0,0},TETROMINO_I,ANGLE_90};
+    CU_ASSERT_TRUE( gridCanSetCellsWithPiece(grid, &piece6) )
+
+    // Still in grid and void, just above the non-void row.
+    Piece piece7 = {{numberOfRows-5,0},TETROMINO_I,ANGLE_90};
+    CU_ASSERT_TRUE( gridCanSetCellsWithPiece(grid, &piece7) )
+
+    // In grid, but last cell of piece overlap a non-void cell of the grid.
+    Piece piece8 = {{numberOfRows-4,0},TETROMINO_I,ANGLE_90};
+    CU_ASSERT_FALSE( gridCanSetCellsWithPiece(grid, &piece8) )
+}
 
 /*
 void test_set_row_to_zero()
@@ -414,6 +484,8 @@ int main()
    ADD_TEST_TO_SUITE(Suite_grid,testPiecePositionInGrid)
    ADD_TEST_TO_SUITE(Suite_grid,testGridSetCellsWithPiece)
    ADD_TEST_TO_SUITE(Suite_grid,TestGridCellIsInGrid)
+   ADD_TEST_TO_SUITE(Suite_grid,TestGridCellIsInGridAndIsVoid)
+   ADD_TEST_TO_SUITE(Suite_grid,TestGridCanSetCellsWithPiece)
    /*ADD_TEST_TO_SUITE(Suite_grid,test_set_row_to_zero)*/
    /*ADD_TEST_TO_SUITE(Suite_grid,test_set_grid_to_zero)*/
 

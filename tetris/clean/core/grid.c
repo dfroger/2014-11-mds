@@ -87,8 +87,7 @@ bool gridCellIsInGridAndIsVoid(Grid* grid, PositionInGrid pos)
     return gridCellIsInGrid(grid,pos) && grid_get_cell(grid, pos) == TETROMINO_VOID;
 }
 
-/*
-bool gridCanAcceptPiece(Grid* grid, Piece* piece)
+bool gridCanSetCellsWithPiece(Grid* grid, Piece* piece)
 {
     unsigned squareIndex;
     PositionInGrid pos;
@@ -98,7 +97,8 @@ bool gridCanAcceptPiece(Grid* grid, Piece* piece)
          squareIndex++)
     {
         pos = piecePositionInGrid(piece, squareIndex);
-        grid_set_cell(grid, pos, piece->tetromino.type);
+        if (! gridCellIsInGridAndIsVoid(grid,pos) ) return false;
     }
+
+    return true;
 }
-*/
