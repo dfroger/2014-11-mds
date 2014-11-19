@@ -85,10 +85,8 @@ int main(int argc, char* argv[])
 {
   unsigned int numberOfRows = 16;
   unsigned int numberOfColumns = 12;
-  Grid* grid = grid_new(numberOfRows, numberOfColumns);
-  TetrominosCollection* tetrominosCollection = getTetrominosCollectionSRS();
 
-  game = gameNew(grid, tetrominosCollection);
+  game = gameNew(numberOfRows, numberOfColumns);
 
   gtk_init(&argc, &argv);
 
@@ -107,7 +105,6 @@ int main(int argc, char* argv[])
 
   gtk_main();
 
-  grid_destroy(grid);
   gameDestroy(game);
 
   return EXIT_SUCCESS;

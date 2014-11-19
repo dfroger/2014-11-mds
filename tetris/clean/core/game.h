@@ -10,7 +10,7 @@ typedef struct game {
     TetrominosCollection* tetrominosCollection;
 } Game;
 
-Game* gameNew();
+Game* gameNew(size_t numberOfRows, size_t numberOfColumns);
 void gameDestroy(Game* game);
 
 void gameTryToMove(Game* game, void (*move)(Piece*), void (*unmove)(Piece*));

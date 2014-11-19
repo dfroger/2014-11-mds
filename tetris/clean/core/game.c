@@ -2,6 +2,7 @@
 #include <string.h>
 
 #include "game.h"
+#include "tetromino_srs.h"
 #include <time.h>
 
 static void gameNewPiece(Game* game)
@@ -11,17 +12,17 @@ static void gameNewPiece(Game* game)
     gridSetCellsWithPiece(game->grid, game->piece, game->piece->tetromino.type);
 }
 
-Game* gameNew(Grid* grid, TetrominosCollection* tetrominosCollection)
+Game* gameNew(size_t numberOfRows, size_t numberOfColumns)
 {
     srand(time(NULL));
     Game* game = (Game*) malloc(sizeof(Game));
-    game->grid = grid;
-    game->tetrominosCollection = tetrominosCollection;
+    game->grid = grid_new(numberOfRows, numberOfColumns);
+    game->tetrominosCollection = getTetrominosCollectionSRS();
 
     // Initialize piece
     game->piece = (Piece*) malloc(sizeof(Piece));
     game->piece->topLeftCorner.rowIndex = 0;
-    game->piece->topLeftCorner.columnIndex = (grid->numberOfColumns - 
+    game->piece->topLeftCorner.columnIndex = (game->grid->numberOfColumns - 
                                               TETROMINO_GRID_SIZE)/2;
     game->piece->angle = ANGLE_0;
     gameNewPiece(game);
@@ -31,6 +32,7 @@ Game* gameNew(Grid* grid, TetrominosCollection* tetrominosCollection)
 
 void gameDestroy(Game* game)
 {
+    grid_destroy(game->grid);
     free(game);
 }
 
