@@ -33,6 +33,13 @@ gboolean on_key_press_event(GtkWidget *widget,
       gameNewPiece(game);
     break;
   case GDK_KEY_space:
+    while (true) {
+        if (! gameTryToMoveBottom(game))
+            break;
+    }
+    gameNewPiece(game);
+    break;
+
     break;
   }
 
