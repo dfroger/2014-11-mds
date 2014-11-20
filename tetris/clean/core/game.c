@@ -26,7 +26,7 @@ static TetrominoType getRandomTetrominoType(Game* game)
 void gameNewPiece(Game* game)
 {
   if (game->status != GAME_ON)
-     return 0;
+     return;
 
   game->piece->topLeftCorner.rowIndex = 0;
   game->piece->topLeftCorner.columnIndex = (game->grid->numberOfColumns - 
@@ -57,7 +57,7 @@ Game* tetris_game_new(size_t numberOfRows, size_t numberOfColumns)
     return game;
 }
 
-void gameDestroy(Game* game)
+void tetris_game_destroy(Game* game)
 {
     free(game->tetrominosCollection);
     free(game->piece);

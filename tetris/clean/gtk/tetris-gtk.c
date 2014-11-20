@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
  
   gtk_main();
 
-  tetris_gui_destroy();
+  tetris_gui_destroy(gui);
 
   return EXIT_SUCCESS;
 }
