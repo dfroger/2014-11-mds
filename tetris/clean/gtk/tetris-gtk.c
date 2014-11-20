@@ -21,7 +21,7 @@ void redraw(GtkWidget* window)
 
 gint on_timeout_event(gpointer data)
 {
-  if (!gameTryToMoveBottom(game))
+  if (! gameTryToMoveBottom(game) )
     gameNewPiece(game);
   redraw(window);
   g_timeout_add(500,on_timeout_event,NULL);

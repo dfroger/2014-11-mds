@@ -20,30 +20,30 @@ static TetrominoType getRandomTetrominoType(Game* game)
 #endif
 }
 
-bool gameNewPiece(Game* game)
+void gameNewPiece(Game* game)
 {
-    bool gameover = false;
+  if (game->status != GAME_ON)
+     return 0;
 
-    game->piece->topLeftCorner.rowIndex = 0;
-    game->piece->topLeftCorner.columnIndex = (game->grid->numberOfColumns - 
-                                              TETROMINO_GRID_SIZE)/2;
-    game->piece->angle = ANGLE_0;
-    
-    TetrominoType type = getRandomTetrominoType(game);
-    game->piece->tetromino = game->tetrominosCollection->tetrominos[type];
-    
-    if ( gridCanSetCellsWithPiece(game->grid,game->piece) )
-      gridSetCellsWithPiece(game->grid, game->piece, game->piece->tetromino.type);
-    else
-      gameover=  true;
-
-    return gameover;
+  game->piece->topLeftCorner.rowIndex = 0;
+  game->piece->topLeftCorner.columnIndex = (game->grid->numberOfColumns - 
+                                          TETROMINO_GRID_SIZE)/2;
+  game->piece->angle = ANGLE_0;
+  
+  TetrominoType type = getRandomTetrominoType(game);
+  game->piece->tetromino = game->tetrominosCollection->tetrominos[type];
+  
+  if ( gridCanSetCellsWithPiece(game->grid,game->piece) )
+    gridSetCellsWithPiece(game->grid, game->piece, game->piece->tetromino.type);
+  else
+    game->status = GAME_OVER;
 }
 
 Game* gameNew(size_t numberOfRows, size_t numberOfColumns)
 {
     srand(time(NULL));
     Game* game = (Game*) malloc(sizeof(Game));
+    game->status = GAME_ON;
     game->grid = grid_new(numberOfRows, numberOfColumns);
     game->tetrominosCollection = getTetrominosCollectionSRS();
 
@@ -84,6 +84,9 @@ bool gameTryToRotateClockwise(Game* game)
 
 bool gameTryToMove(Game* game,void (*move)(Piece*),void (*unmove)(Piece*))
 {
+  if (game->status != GAME_ON)
+     return false;
+
   bool managedToMove = true;
 
   gridSetCellsWithPiece(game->grid, 

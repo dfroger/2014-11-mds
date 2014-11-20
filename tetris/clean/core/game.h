@@ -4,13 +4,16 @@
 #include "grid.h"
 #include "piece.h"
 
+typedef enum { GAME_ON, GAME_OVER, GAME_PAUSED} GameStatus;
+
 typedef struct game {
+    GameStatus status;
     Grid* grid;
     Piece* piece;
     TetrominosCollection* tetrominosCollection;
 } Game;
 
-bool gameNewPiece(Game* game);
+void gameNewPiece(Game* game);
 Game* gameNew(size_t numberOfRows, size_t numberOfColumns);
 void gameDestroy(Game* game);
 
