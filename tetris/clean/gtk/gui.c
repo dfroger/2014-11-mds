@@ -96,14 +96,15 @@ gboolean on_key_press_event(GtkWidget *window,
 
 TetrisGUI* tetris_gui_new()
 {
-  TetrisGUI* gui = (TetrisGUI*)malloc(sizeof(TetrisGUI));
-
-    gui->window = tetris_window_new();
-  g_signal_connect(G_OBJECT(gui->window), "key_press_event", G_CALLBACK(on_key_press_event), gui);
-  g_signal_connect(G_OBJECT(gui->window->matrix), "expose_event", G_CALLBACK(on_matrix_expose_event), gui);
-  
   unsigned int numberOfRows = 20;
   unsigned int numberOfColumns = 10;
+  
+  TetrisGUI* gui = (TetrisGUI*)malloc(sizeof(TetrisGUI));
+
+  gui->window = tetris_window_new(numberOfRows,numberOfColumns);
+  g_signal_connect(G_OBJECT(gui->window->base), "key_press_event", G_CALLBACK(on_key_press_event), gui);
+  g_signal_connect(G_OBJECT(gui->window->matrix), "expose_event", G_CALLBACK(on_matrix_expose_event), gui);
+  
   gui->game = tetris_game_new(numberOfRows,numberOfColumns);
 
   tetris_window_show(gui->window);
