@@ -10,8 +10,11 @@ static TetrominoType getRandomTetrominoType(Game* game)
 #ifdef WITH_MOCK
     static size_t noMoreRandomTetrominoTypeIndex = 0;
     size_t numberOfNoMoreRandomTetrominoType = 2;
-    TetrominoType noMoreRandomTetrominoType[2] = {TETROMINO_SRS_J, TETROMINO_SRS_L};
-    TetrominoType tetrominoType = noMoreRandomTetrominoType[noMoreRandomTetrominoTypeIndex];
+    TetrominoType noMoreRandomTetrominoType[2] = 
+      {TETROMINO_SRS_J, TETROMINO_SRS_L};
+
+    TetrominoType tetrominoType = 
+      noMoreRandomTetrominoType[noMoreRandomTetrominoTypeIndex];
     noMoreRandomTetrominoTypeIndex = (noMoreRandomTetrominoTypeIndex + 1) % 
                                      numberOfNoMoreRandomTetrominoType;
     return tetrominoType;
@@ -39,7 +42,7 @@ void gameNewPiece(Game* game)
     game->status = GAME_OVER;
 }
 
-Game* gameNew(size_t numberOfRows, size_t numberOfColumns)
+Game* tetris_game_new(size_t numberOfRows, size_t numberOfColumns)
 {
     srand(time(NULL));
     Game* game = (Game*) malloc(sizeof(Game));

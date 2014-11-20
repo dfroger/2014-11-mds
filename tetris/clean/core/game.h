@@ -14,7 +14,7 @@ typedef struct game {
 } Game;
 
 void gameNewPiece(Game* game);
-Game* gameNew(size_t numberOfRows, size_t numberOfColumns);
+Game* tetris_game_new(size_t numberOfRows, size_t numberOfColumns);
 void gameDestroy(Game* game);
 
 bool gameTryToMove(Game* game, void (*move)(Piece*), void (*unmove)(Piece*));

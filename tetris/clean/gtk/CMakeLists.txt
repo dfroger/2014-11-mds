@@ -7,7 +7,7 @@ include_directories(
 
 #add_library(${TETRIS_GTK_LIBRARY} SHARED
 #)
-add_executable(tetris-gtk tetris-gtk.c)
+add_executable(tetris-gtk tetris-gtk.c gui.c window.c)
 target_link_libraries(tetris-gtk 
     ${TETRIS_CORE_LIBRARY}
     #${TETRIS_GTK_LIBRARY}
