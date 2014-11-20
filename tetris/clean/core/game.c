@@ -5,9 +5,9 @@
 #include "tetromino_srs.h"
 #include <time.h>
 
-#ifdef WITH_MOCK
 static TetrominoType getRandomTetrominoType(Game* game)
 {
+#ifdef WITH_MOCK
     static size_t noMoreRandomTetrominoTypeIndex = 0;
     size_t numberOfNoMoreRandomTetrominoType = 2;
     TetrominoType noMoreRandomTetrominoType[2] = {TETROMINO_SRS_J, TETROMINO_SRS_L};
@@ -15,13 +15,10 @@ static TetrominoType getRandomTetrominoType(Game* game)
     noMoreRandomTetrominoTypeIndex = (noMoreRandomTetrominoTypeIndex + 1) % 
                                      numberOfNoMoreRandomTetrominoType;
     return tetrominoType;
-}
 #else
-static TetrominoType getRandomTetrominoType(Game* game)
-{
     return rand() % game->tetrominosCollection->numberOfTetrominos;
-}
 #endif
+}
 
 void gameNewPiece(Game* game)
 {
