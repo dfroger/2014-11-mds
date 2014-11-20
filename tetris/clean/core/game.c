@@ -20,8 +20,10 @@ static TetrominoType getRandomTetrominoType(Game* game)
 #endif
 }
 
-void gameNewPiece(Game* game)
+bool gameNewPiece(Game* game)
 {
+    bool gameover = false;
+
     game->piece->topLeftCorner.rowIndex = 0;
     game->piece->topLeftCorner.columnIndex = (game->grid->numberOfColumns - 
                                               TETROMINO_GRID_SIZE)/2;
@@ -30,7 +32,12 @@ void gameNewPiece(Game* game)
     TetrominoType type = getRandomTetrominoType(game);
     game->piece->tetromino = game->tetrominosCollection->tetrominos[type];
     
-    gridSetCellsWithPiece(game->grid, game->piece, game->piece->tetromino.type);
+    if ( gridCanSetCellsWithPiece(game->grid,game->piece) )
+      gridSetCellsWithPiece(game->grid, game->piece, game->piece->tetromino.type);
+    else
+      gameover=  true;
+
+    return gameover;
 }
 
 Game* gameNew(size_t numberOfRows, size_t numberOfColumns)

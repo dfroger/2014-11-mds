@@ -14,6 +14,20 @@
 static Game* game;
 static GtkWidget* window;
 
+void redraw(GtkWidget* window)
+{
+  gtk_widget_queue_draw(window);
+}
+
+gint on_timeout_event(gpointer data)
+{
+  if (!gameTryToMoveBottom(game))
+    gameNewPiece(game);
+  redraw(window);
+  g_timeout_add(500,on_timeout_event,NULL);
+  return 0;
+}
+
 gboolean on_key_press_event(GtkWidget *widget,
                             GdkEventKey *event,
                             gpointer data)
@@ -43,7 +57,8 @@ gboolean on_key_press_event(GtkWidget *widget,
     break;
   }
 
-  gtk_widget_queue_draw(window);
+  redraw(window);
+  
   return TRUE;
 }
 
@@ -111,6 +126,8 @@ int main(int argc, char* argv[])
 
   gtk_widget_show(window);
 
+  g_timeout_add(500,on_timeout_event,NULL);
+ 
   gtk_main();
 
   gameDestroy(game);
