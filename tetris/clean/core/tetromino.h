@@ -33,6 +33,9 @@ typedef struct tetromino_collection
     Tetromino* tetrominos;
 } TetrominosCollection;
 
+Tetromino* tetris_tetromino_new(RGBColor const color, TetrominoType const type);
+
+
 void tetrominosCollectionDestroy(TetrominosCollection* coll);
 
 #endif
