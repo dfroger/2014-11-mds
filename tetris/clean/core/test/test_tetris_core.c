@@ -450,16 +450,13 @@ void testPieceRotateClockwise()
 
 void test_game_new_destroy()
 {
-    // Create a grid.
+    // Create a game.
     unsigned int numberOfRows = 3;
     unsigned int numberOfColumns = 2;
-    Grid* grid = grid_new(numberOfRows, numberOfColumns);
-
-    // Create a game.
-    Game* game = gameNew(grid, tetrominosCollection);
+    Game* game = tetris_game_new(numberOfRows, numberOfColumns);
 
     // Destroy the game.
-    gameDestroy(game);
+    tetris_game_destroy(game);
 }
 
 
@@ -471,7 +468,7 @@ void testRealGame()
 {
     unsigned int numberOfRows = 20;
     unsigned int numberOfColumns = 10;
-    Game* game = gameNew(numberOfRows, numberOfColumns);
+    Game* game = tetris_game_new(numberOfRows, numberOfColumns);
 
     CU_ASSERT(game->piece->tetromino.type == TETROMINO_SRS_J)
 
@@ -484,7 +481,7 @@ void testRealGame()
     gameNewPiece(game);
     CU_ASSERT(game->piece->tetromino.type == TETROMINO_SRS_L)
 
-    gameDestroy(game);
+    tetris_game_destroy(game);
 }
 
 
