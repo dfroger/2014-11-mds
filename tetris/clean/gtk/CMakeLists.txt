@@ -14,5 +14,7 @@ target_link_libraries(tetris-gtk
     ${GTK2_LIBRARIES}
 )
 
-add_subdirectory(test)
+if(CMAKE_BUILD_TYPE MATCHES TEST)
+    add_subdirectory(test)
+endif(CMAKE_BUILD_TYPE MATCHES TEST)
 

@@ -10,4 +10,6 @@ add_library(${TETRIS_CORE_LIBRARY} SHARED
     game.c
 )
 
-add_subdirectory(test)
+if(CMAKE_BUILD_TYPE MATCHES TEST)
+    add_subdirectory(test)
+endif(CMAKE_BUILD_TYPE MATCHES TEST)
