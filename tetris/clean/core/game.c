@@ -36,8 +36,8 @@ void gameNewPiece(Game* game)
   TetrominoType type = getRandomTetrominoType(game);
   game->piece->tetromino = game->tetrominosCollection->tetrominos[type];
   
-  if ( gridCanSetCellsWithPiece(game->grid,game->piece) )
-    gridSetCellsWithPiece(game->grid, game->piece, game->piece->tetromino.type);
+  if ( tetris_grid_canSetCellsWithPiece(game->grid,game->piece) )
+    tetris_grid_setCellsWithPiece(game->grid, game->piece, game->piece->tetromino.type);
   else
     game->status = GAME_OVER;
 }
@@ -47,7 +47,7 @@ Game* tetris_game_new(size_t numberOfRows, size_t numberOfColumns)
     srand(time(NULL));
     Game* game = (Game*) malloc(sizeof(Game));
     game->status = GAME_ON;
-    game->grid = grid_new(numberOfRows, numberOfColumns);
+    game->grid = tetris_grid_new(numberOfRows, numberOfColumns);
     game->tetrominosCollection = getTetrominosCollectionSRS();
 
     // Initialize piece
@@ -61,7 +61,7 @@ void tetris_game_destroy(Game* game)
 {
     free(game->tetrominosCollection);
     free(game->piece);
-    grid_destroy(game->grid);
+    tetris_grid_destroy(game->grid);
     free(game);
 }
 
@@ -92,18 +92,18 @@ bool gameTryToMove(Game* game,void (*move)(Piece*),void (*unmove)(Piece*))
 
   bool managedToMove = true;
 
-  gridSetCellsWithPiece(game->grid, 
+  tetris_grid_setCellsWithPiece(game->grid, 
                         game->piece,
                         TETROMINO_VOID);
 
   move(game->piece);
 
-  if (! gridCanSetCellsWithPiece(game->grid, game->piece)) {
+  if (! tetris_grid_canSetCellsWithPiece(game->grid, game->piece)) {
       managedToMove = false;
       unmove(game->piece);
   }
 
-  gridSetCellsWithPiece(game->grid, 
+  tetris_grid_setCellsWithPiece(game->grid, 
                         game->piece,
                         game->piece->tetromino.type);
 

@@ -69,7 +69,7 @@ gboolean on_matrix_expose_event(GtkWidget *matrix,GdkEventExpose *event, TetrisG
       PositionInGrid pos;
       pos.rowIndex = irow;
       pos.columnIndex = icol;
-      TetrominoType type = grid_get_cell(grid,pos);
+      TetrominoType type = tetris_grid_get_cell(grid,pos);
       if (type == TETROMINO_VOID)
           color = WHITE;
       else

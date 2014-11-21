@@ -50,7 +50,7 @@ void test_grid_new_destroy()
     // Create a grid.
     unsigned int numberOfRows = 3;
     unsigned int numberOfColumns = 2;
-    Grid* grid = grid_new(numberOfRows, numberOfColumns);
+    Grid* grid = tetris_grid_new(numberOfRows, numberOfColumns);
 
     // Check that values are initialized to TETROMINO_VOID
     unsigned int rowIndex;
@@ -62,7 +62,7 @@ void test_grid_new_destroy()
     }
 
     // Free memory.
-    grid_destroy(grid);
+    tetris_grid_destroy(grid);
 }
 
 void test_grid_set_get_cell()
@@ -70,7 +70,7 @@ void test_grid_set_get_cell()
     // Create a 3 rows grid.
     unsigned int numberOfRows = 3;
     unsigned int numberOfColumns = 2;
-    Grid* grid = grid_new(numberOfRows, numberOfColumns);
+    Grid* grid = tetris_grid_new(numberOfRows, numberOfColumns);
 
     unsigned int columnIndex;
     PositionInGrid pos;
@@ -79,35 +79,35 @@ void test_grid_set_get_cell()
     pos.rowIndex = 0;
     for (columnIndex = 0 ; columnIndex < numberOfColumns ; columnIndex++) {
         pos.columnIndex = columnIndex;
-        grid_set_cell(grid, pos, TETROMINO_SRS_O);
+        tetris_grid_set_cell(grid, pos, TETROMINO_SRS_O);
     }
 
     // Set Third row.
     pos.rowIndex = 2;
     for (columnIndex = 0 ; columnIndex < numberOfColumns ; columnIndex++) {
         pos.columnIndex = columnIndex;
-        grid_set_cell(grid, pos, TETROMINO_SRS_I);
+        tetris_grid_set_cell(grid, pos, TETROMINO_SRS_I);
     }
 
     // Check first row.
     pos.rowIndex = 0;
     for (columnIndex = 0 ; columnIndex < numberOfColumns ; columnIndex++) {
         pos.columnIndex = columnIndex;
-        CU_ASSERT( grid_get_cell(grid, pos) == TETROMINO_SRS_O);
+        CU_ASSERT( tetris_grid_get_cell(grid, pos) == TETROMINO_SRS_O);
     }
 
     // Check second row, it has been initialize to TETROMINO_VOID by grid_new.
     pos.rowIndex = 1;
     for (columnIndex = 0 ; columnIndex < numberOfColumns ; columnIndex++) {
         pos.columnIndex = columnIndex;
-        CU_ASSERT( grid_get_cell(grid, pos) == TETROMINO_VOID);
+        CU_ASSERT( tetris_grid_get_cell(grid, pos) == TETROMINO_VOID);
     }
 
     // Check third row.
     pos.rowIndex = 2;
     for (columnIndex = 0 ; columnIndex < numberOfColumns ; columnIndex++) {
         pos.columnIndex = columnIndex;
-        CU_ASSERT( grid_get_cell(grid, pos) == TETROMINO_SRS_I);
+        CU_ASSERT( tetris_grid_get_cell(grid, pos) == TETROMINO_SRS_I);
     }
 }
 
@@ -141,7 +141,7 @@ void testGridSetCellsWithPiece()
     // Create a grid.
     unsigned int numberOfRows = 10;
     unsigned int numberOfColumns = 10;
-    Grid* grid = grid_new(numberOfRows, numberOfColumns);
+    Grid* grid = tetris_grid_new(numberOfRows, numberOfColumns);
 
     // Create a piece;
     Tetromino TETROMINO_I = tetrominosCollection->tetrominos[TETROMINO_SRS_I];
@@ -174,7 +174,7 @@ void testGridSetCellsWithPiece()
             } else {
                 expectedType = TETROMINO_VOID;
             }
-            type = grid_get_cell(grid,pos);
+            type = tetris_grid_get_cell(grid,pos);
             CU_ASSERT_EQUAL(type,expectedType);
         }
     }
@@ -185,7 +185,7 @@ void TestGridCellIsInGrid()
     // Create a grid.
     unsigned int numberOfRows = 2;
     unsigned int numberOfColumns = 3;
-    Grid* grid = grid_new(numberOfRows, numberOfColumns);
+    Grid* grid = tetris_grid_new(numberOfRows, numberOfColumns);
 
     PositionInGrid pos;
     unsigned int rowIndex;
@@ -234,11 +234,11 @@ void TestGridCellIsInGridAndIsVoid()
     // Create a grid.
     unsigned int numberOfRows = 2;
     unsigned int numberOfColumns = 3;
-    Grid* grid = grid_new(numberOfRows, numberOfColumns);
+    Grid* grid = tetris_grid_new(numberOfRows, numberOfColumns);
 
     // Grid has been initialize to TETROMINO_VOID, modify one cell type.
     PositionInGrid posNotVoid = {1,2};
-    grid_set_cell(grid, posNotVoid, TETROMINO_SRS_O);
+    tetris_grid_set_cell(grid, posNotVoid, TETROMINO_SRS_O);
 
     unsigned int rowIndex;
     unsigned int columnIndex;
@@ -285,7 +285,7 @@ void TestGridCanSetCellsWithPiece()
     // Create a grid.
     unsigned int numberOfRows = 10;
     unsigned int numberOfColumns = 10;
-    Grid* grid = grid_new(numberOfRows, numberOfColumns);
+    Grid* grid = tetris_grid_new(numberOfRows, numberOfColumns);
 
     Tetromino TETROMINO_I = tetrominosCollection->tetrominos[TETROMINO_SRS_I];
 
@@ -321,7 +321,7 @@ void TestGridCanSetCellsWithPiece()
     pos.rowIndex = numberOfRows-1 ;
     for (columnIndex = 0 ; columnIndex < grid->numberOfColumns ; columnIndex++) {
         pos.columnIndex = columnIndex;
-        grid_set_cell(grid, pos, TETROMINO_SRS_I);
+        tetris_grid_set_cell(grid, pos, TETROMINO_SRS_I);
     }
 
     // Ok, in grid and void.
@@ -502,21 +502,21 @@ void stackSomePieces()
     }
 
     PositionInGrid pos;
-    Grid* expected_grid = grid_new(numberOfRows, numberOfColumns);
+    Grid* expected_grid = tetris_grid_new(numberOfRows, numberOfColumns);
 
     pos.rowIndex = numberOfRows-1;
     pos.columnIndex = 3;
-    grid_set_cell(expected_grid, pos, TETROMINO_SRS_J);
+    tetris_grid_set_cell(expected_grid, pos, TETROMINO_SRS_J);
 
     pos.rowIndex = numberOfRows-2;
-    grid_set_cell(expected_grid, pos, TETROMINO_SRS_J);
+    tetris_grid_set_cell(expected_grid, pos, TETROMINO_SRS_J);
 
     pos.rowIndex = numberOfRows-3;
-    grid_set_cell(expected_grid, pos, TETROMINO_SRS_J);
+    tetris_grid_set_cell(expected_grid, pos, TETROMINO_SRS_J);
 
     pos.rowIndex = numberOfRows-1;
     pos.columnIndex = 2;
-    grid_set_cell(expected_grid, pos, TETROMINO_SRS_J);
+    tetris_grid_set_cell(expected_grid, pos, TETROMINO_SRS_J);
 
     // Expected expected_grid type for pieces 0 and 2
     /*
