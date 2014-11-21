@@ -25,4 +25,6 @@ bool gridCellIsInGrid(Grid* grid, PositionInGrid pos);
 bool gridCellIsInGridAndIsVoid(Grid* grid, PositionInGrid pos);
 bool gridCanSetCellsWithPiece(Grid* grid, Piece* piece);
 
+bool sameGrids(Grid const * const left, Grid const * const right);
+
 #endif

@@ -102,3 +102,29 @@ bool gridCanSetCellsWithPiece(Grid* grid, Piece* piece)
 
     return true;
 }
+
+bool sameGrids(Grid const * const left, Grid const * const right)
+{
+    // Compare grid dimensions.
+    if (left->numberOfRows != right->numberOfRows)
+        return false;
+    if (left->numberOfColumns != right->numberOfColumns)
+        return false;
+
+    // Compare grid values.
+    PositionInGrid pos;
+    unsigned int rowIndex;
+    unsigned int columnIndex;
+
+    for (rowIndex = 0 ; rowIndex < left->numberOfRows ; rowIndex++) {
+        pos.rowIndex = rowIndex;
+        for (columnIndex = 0 ; columnIndex < left->numberOfColumns ; columnIndex++) {
+            pos.columnIndex = columnIndex;
+            if (grid_get_cell(left, pos) != grid_get_cell(right,pos)) {
+               printf("sameGrid: (%u,%u): %u VS %u\n",pos.rowIndex, pos.columnIndex, grid_get_cell(left, pos), grid_get_cell(right,pos));
+               return false; 
+            }
+        }
+    }
+    return true;
+}
