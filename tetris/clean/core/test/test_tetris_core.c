@@ -147,7 +147,7 @@ void testGridSetCellsWithPiece()
     Tetromino TETROMINO_I = tetrominosCollection->tetrominos[TETROMINO_SRS_I];
     Piece piece = {{2,3},TETROMINO_I,ANGLE_90};
 
-    gridSetCellsWithPiece(grid, &piece, piece.tetromino.type);
+    tetris_grid_setCellsWithPiece(grid, &piece, piece.tetromino.type);
 
     // The piece position in grid.
     PositionInGrid pos0 = {2,5};
@@ -196,7 +196,7 @@ void TestGridCellIsInGrid()
         pos.rowIndex = rowIndex;
         for (columnIndex = 0 ; columnIndex < numberOfColumns ; columnIndex++) {
             pos.columnIndex = columnIndex;
-            CU_ASSERT_TRUE(gridCellIsInGrid(grid, pos));
+            CU_ASSERT_TRUE(tetris_grid_cellIsInGrid(grid, pos));
         }
     }
 
@@ -204,28 +204,28 @@ void TestGridCellIsInGrid()
     pos.rowIndex = -1;
     for (columnIndex = 0 ; columnIndex < numberOfColumns ; columnIndex++) {
         pos.columnIndex = columnIndex;
-        CU_ASSERT_FALSE(gridCellIsInGrid(grid, pos));
+        CU_ASSERT_FALSE(tetris_grid_cellIsInGrid(grid, pos));
     }
 
     // Check row out of grid from bottom.
     pos.rowIndex = numberOfRows;
     for (columnIndex = 0 ; columnIndex < numberOfColumns ; columnIndex++) {
         pos.columnIndex = columnIndex;
-        CU_ASSERT_FALSE(gridCellIsInGrid(grid, pos));
+        CU_ASSERT_FALSE(tetris_grid_cellIsInGrid(grid, pos));
     }
 
     // Check column out of grid from left.
     pos.columnIndex = -1;
     for (rowIndex = 0 ; rowIndex < numberOfRows; rowIndex++) {
         pos.rowIndex = rowIndex;
-        CU_ASSERT_FALSE(gridCellIsInGrid(grid, pos));
+        CU_ASSERT_FALSE(tetris_grid_cellIsInGrid(grid, pos));
     }
 
     // Check column out of grid from right.
     pos.columnIndex = numberOfColumns;
     for (rowIndex = 0 ; rowIndex < numberOfRows; rowIndex++) {
         pos.rowIndex = rowIndex;
-        CU_ASSERT_FALSE(gridCellIsInGrid(grid, pos));
+        CU_ASSERT_FALSE(tetris_grid_cellIsInGrid(grid, pos));
     }
 }
 
@@ -250,7 +250,7 @@ void TestGridCellIsInGridAndIsVoid()
         pos.rowIndex = rowIndex;
         for (columnIndex = 0 ; columnIndex < numberOfColumns ; columnIndex++) {
             pos.columnIndex = columnIndex;
-            isInGridAndIsVoid = gridCellIsInGridAndIsVoid(grid,pos);
+            isInGridAndIsVoid = tetris_grid_cellIsInGridAndIsVoid(grid,pos);
             if (samePositionsInGrid(pos,posNotVoid)) {
                 CU_ASSERT_FALSE(isInGridAndIsVoid);
             } else {
@@ -262,7 +262,7 @@ void TestGridCellIsInGridAndIsVoid()
     // Check for cell NOT in grid.
     pos.rowIndex = 5;
     pos.columnIndex = 5;
-    isInGridAndIsVoid = gridCellIsInGridAndIsVoid(grid,pos);
+    isInGridAndIsVoid = tetris_grid_cellIsInGridAndIsVoid(grid,pos);
     CU_ASSERT_FALSE(isInGridAndIsVoid);
 }
 
@@ -293,27 +293,27 @@ void TestGridCanSetCellsWithPiece()
 
     // Ok, in grid and void.
     Piece piece0 = {{0,0},TETROMINO_I,ANGLE_0};
-    CU_ASSERT_TRUE( gridCanSetCellsWithPiece(grid, &piece0) )
+    CU_ASSERT_TRUE( tetris_grid_canSetCellsWithPiece(grid, &piece0) )
 
     // Ok, still in grid (in the first row).
     Piece piece1 = {{-1,0},TETROMINO_I,ANGLE_0};
-    CU_ASSERT_TRUE( gridCanSetCellsWithPiece(grid, &piece1) )
+    CU_ASSERT_TRUE( tetris_grid_canSetCellsWithPiece(grid, &piece1) )
 
     // No more in grid.
     Piece piece2 = {{-2,0},TETROMINO_I,ANGLE_0};
-    CU_ASSERT_FALSE( gridCanSetCellsWithPiece(grid, &piece2) )
+    CU_ASSERT_FALSE( tetris_grid_canSetCellsWithPiece(grid, &piece2) )
 
     // Ok, in grid and void.
     Piece piece3 = {{5,0},TETROMINO_I,ANGLE_90};
-    CU_ASSERT_TRUE( gridCanSetCellsWithPiece(grid, &piece3) )
+    CU_ASSERT_TRUE( tetris_grid_canSetCellsWithPiece(grid, &piece3) )
 
     // Ok, still in grid (in the first column).
     Piece piece4 = {{5,-2},TETROMINO_I,ANGLE_90};
-    CU_ASSERT_TRUE( gridCanSetCellsWithPiece(grid, &piece4) )
+    CU_ASSERT_TRUE( tetris_grid_canSetCellsWithPiece(grid, &piece4) )
 
     // No more in grid.
     Piece piece5 = {{5,-3},TETROMINO_I,ANGLE_90};
-    CU_ASSERT_FALSE( gridCanSetCellsWithPiece(grid, &piece5) )
+    CU_ASSERT_FALSE( tetris_grid_canSetCellsWithPiece(grid, &piece5) )
 
     // Now, fill the last grid row with non-void tetrominos.
     PositionInGrid pos;
@@ -326,15 +326,15 @@ void TestGridCanSetCellsWithPiece()
 
     // Ok, in grid and void.
     Piece piece6 = {{0,0},TETROMINO_I,ANGLE_90};
-    CU_ASSERT_TRUE( gridCanSetCellsWithPiece(grid, &piece6) )
+    CU_ASSERT_TRUE( tetris_grid_canSetCellsWithPiece(grid, &piece6) )
 
     // Still in grid and void, just above the non-void row.
     Piece piece7 = {{numberOfRows-5,0},TETROMINO_I,ANGLE_90};
-    CU_ASSERT_TRUE( gridCanSetCellsWithPiece(grid, &piece7) )
+    CU_ASSERT_TRUE( tetris_grid_canSetCellsWithPiece(grid, &piece7) )
 
     // In grid, but last cell of piece overlap a non-void cell of the grid.
     Piece piece8 = {{numberOfRows-4,0},TETROMINO_I,ANGLE_90};
-    CU_ASSERT_FALSE( gridCanSetCellsWithPiece(grid, &piece8) )
+    CU_ASSERT_FALSE( tetris_grid_canSetCellsWithPiece(grid, &piece8) )
 }
 
 /*
@@ -467,80 +467,122 @@ void test_game_new_destroy()
 /*
  * Stack four pieces (0,1,2,3) in left bottom corner of the matrix:
  *
- *  |  3-3  2-2
- *  |    |  |
- *  | 1  3  2  0
- *  | |  |  |  |
- *  | 1  3  2  0
- *  | |        |
- *  | 1-1    0-0
- *  +------------------
+ *  # 3-3 2-2    16 (numberOfRows-4)
+ *  #   | |
+ *  # 1 3 2 0    17 (numberOfRows-3)
+ *  # | | | |
+ *  # 1 3 2 0    18 (numberOfRows-2)
+ *  # |     |
+ *  # 1-1   0-0  19 (numberOfRows-1)
+ *  ################
+ *    0 1 2 3 4
+ *    
+ *
+ *
  */
 
 void stackSomePieces()
 {
     unsigned int numberOfRows = 20;
     unsigned int numberOfColumns = 10;
+    unsigned int imove;
     Game* game = tetris_game_new(numberOfRows, numberOfColumns);
 
-    // While the piece is falling, rotate it 3 times.
-    CU_ASSERT_TRUE( gameTryToMoveBottom(game) );
-    CU_ASSERT_TRUE( gameTryToRotateClockwise(game) );
-    CU_ASSERT_TRUE( gameTryToMoveBottom(game) );
-    CU_ASSERT_TRUE( gameTryToRotateClockwise(game) );
-    CU_ASSERT_TRUE( gameTryToMoveBottom(game) );
-    CU_ASSERT_TRUE( gameTryToRotateClockwise(game) );
-
+    // Piece 0. While the piece is falling:
+    // Rotate it 3 times.
+    for (imove = 0; imove < 3; imove++) {
+        CU_ASSERT_TRUE( gameTryToMoveBottom(game) );
+        CU_ASSERT_TRUE( gameTryToRotateClockwise(game) );
+    }
     // Move piece to left.
     CU_ASSERT_TRUE( gameTryToMoveBottom(game) );
     CU_ASSERT_TRUE( gameTryToMoveLeft(game) );
+    // Reach bottom.
+    while (true) {
+        if (! gameTryToMoveBottom(game))
+            break;
+    }
+    gameNewPiece(game);
 
+    // Piece 1. While the piece is falling:
+    // Rotate it 1 times.
+    CU_ASSERT_TRUE( gameTryToMoveBottom(game) );
+    CU_ASSERT_TRUE( gameTryToRotateClockwise(game) );
+    // Move piece to left.
+    for (imove = 0; imove < 4; imove++) {
+        CU_ASSERT_TRUE( gameTryToMoveBottom(game) );
+        CU_ASSERT_TRUE( gameTryToMoveLeft(game) );
+    }
+    // Reach bottom.
+    while (true) {
+        if (! gameTryToMoveBottom(game))
+            break;
+    }
+    gameNewPiece(game);
+
+    // Piece 2. While the piece is falling:
+    // Rotate it 1 times.
+    CU_ASSERT_TRUE( gameTryToMoveBottom(game) );
+    CU_ASSERT_TRUE( gameTryToRotateClockwise(game) );
+    // Move piece to left.
+    for (imove = 0; imove < 2; imove++) {
+        CU_ASSERT_TRUE( gameTryToMoveBottom(game) );
+        CU_ASSERT_TRUE( gameTryToMoveLeft(game) );
+    }
+    // Reach bottom.
+    while (true) {
+        if (! gameTryToMoveBottom(game))
+            break;
+    }
+    gameNewPiece(game);
+
+    // Piece 3. While the piece is falling:
+    // Rotate it 3 times.
+    for (imove = 0; imove < 3; imove++) {
+        CU_ASSERT_TRUE( gameTryToMoveBottom(game) );
+        CU_ASSERT_TRUE( gameTryToRotateClockwise(game) );
+    }
+    // Move piece to left.
+    for (imove = 0; imove < 3; imove++) {
+        CU_ASSERT_TRUE( gameTryToMoveBottom(game) );
+        CU_ASSERT_TRUE( gameTryToMoveLeft(game) );
+    }
     // Reach bottom.
     while (true) {
         if (! gameTryToMoveBottom(game))
             break;
     }
 
+    size_t rowIndex;
+    size_t columnIndex;
     PositionInGrid pos;
     Grid* expected_grid = tetris_grid_new(numberOfRows, numberOfColumns);
 
-    pos.rowIndex = numberOfRows-1;
-    pos.columnIndex = 3;
-    tetris_grid_set_cell(expected_grid, pos, TETROMINO_SRS_J);
-
-    pos.rowIndex = numberOfRows-2;
-    tetris_grid_set_cell(expected_grid, pos, TETROMINO_SRS_J);
-
-    pos.rowIndex = numberOfRows-3;
-    tetris_grid_set_cell(expected_grid, pos, TETROMINO_SRS_J);
-
-    pos.rowIndex = numberOfRows-1;
-    pos.columnIndex = 2;
-    tetris_grid_set_cell(expected_grid, pos, TETROMINO_SRS_J);
-
     // Expected expected_grid type for pieces 0 and 2
-    /*
     for (rowIndex = numberOfRows-4 ; rowIndex < numberOfRows ; rowIndex++) {
         pos.rowIndex = rowIndex;
-        for (columnIndex = 2 ; columnIndex < 5 ; columnIndex++) {
+        for (columnIndex = 2 ; columnIndex < 4 ; columnIndex++) {
             pos.columnIndex = columnIndex;
-            grid_set_cell(expected_grid, pos, TETROMINO_SRS_J);
+            tetris_grid_set_cell(expected_grid, pos, TETROMINO_SRS_J);
         }
     }
 
     // Expected expected_grid type for pieces 1 and 3
-    PositionInGrid pos;
-    Grid* expected_grid = grid_new(numberOfRows, numberOfColumns);
     for (rowIndex = numberOfRows-4 ; rowIndex < numberOfRows ; rowIndex++) {
         pos.rowIndex = rowIndex;
-        for (columnIndex = 0 ; columnIndex < 3 ; columnIndex++) {
+        for (columnIndex = 0 ; columnIndex < 2 ; columnIndex++) {
             pos.columnIndex = columnIndex;
-            grid_set_cell(expected_grid, pos, TETROMINO_SRS_L);
+            tetris_grid_set_cell(expected_grid, pos, TETROMINO_SRS_L);
         }
     }
-    */
 
-    CU_ASSERT_TRUE( sameGrids(game->grid, expected_grid) );
+    CU_ASSERT_TRUE( tetris_grid_sameGrids(game->grid, expected_grid) );
+
+    printf("Actual\n:");
+    tetris_grid_print(game->grid);
+
+    printf("Expected\n:");
+    tetris_grid_print(expected_grid);
 
     tetris_game_destroy(game);
 }
