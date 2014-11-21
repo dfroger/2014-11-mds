@@ -464,22 +464,83 @@ void test_game_new_destroy()
 // Functional suite tests
 //////////////////////////////////////////////////////////////////////////////
 
-void testRealGame()
+/*
+ * Stack four pieces (0,1,2,3) in left bottom corner of the matrix:
+ *
+ *  |  3-3  2-2
+ *  |    |  |
+ *  | 1  3  2  0
+ *  | |  |  |  |
+ *  | 1  3  2  0
+ *  | |        |
+ *  | 1-1    0-0
+ *  +------------------
+ */
+
+void stackSomePieces()
 {
     unsigned int numberOfRows = 20;
     unsigned int numberOfColumns = 10;
     Game* game = tetris_game_new(numberOfRows, numberOfColumns);
 
-    CU_ASSERT(game->piece->tetromino.type == TETROMINO_SRS_J)
+    // While the piece is falling, rotate it 3 times.
+    CU_ASSERT_TRUE( gameTryToMoveBottom(game) );
+    CU_ASSERT_TRUE( gameTryToRotateClockwise(game) );
+    CU_ASSERT_TRUE( gameTryToMoveBottom(game) );
+    CU_ASSERT_TRUE( gameTryToRotateClockwise(game) );
+    CU_ASSERT_TRUE( gameTryToMoveBottom(game) );
+    CU_ASSERT_TRUE( gameTryToRotateClockwise(game) );
 
-    gameNewPiece(game);
-    CU_ASSERT(game->piece->tetromino.type == TETROMINO_SRS_L)
+    // Move piece to left.
+    CU_ASSERT_TRUE( gameTryToMoveBottom(game) );
+    CU_ASSERT_TRUE( gameTryToMoveLeft(game) );
 
-    gameNewPiece(game);
-    CU_ASSERT(game->piece->tetromino.type == TETROMINO_SRS_J)
+    // Reach bottom.
+    while (true) {
+        if (! gameTryToMoveBottom(game))
+            break;
+    }
 
-    gameNewPiece(game);
-    CU_ASSERT(game->piece->tetromino.type == TETROMINO_SRS_L)
+    PositionInGrid pos;
+    Grid* expected_grid = grid_new(numberOfRows, numberOfColumns);
+
+    pos.rowIndex = numberOfRows-1;
+    pos.columnIndex = 3;
+    grid_set_cell(expected_grid, pos, TETROMINO_SRS_J);
+
+    pos.rowIndex = numberOfRows-2;
+    grid_set_cell(expected_grid, pos, TETROMINO_SRS_J);
+
+    pos.rowIndex = numberOfRows-3;
+    grid_set_cell(expected_grid, pos, TETROMINO_SRS_J);
+
+    pos.rowIndex = numberOfRows-1;
+    pos.columnIndex = 2;
+    grid_set_cell(expected_grid, pos, TETROMINO_SRS_J);
+
+    // Expected expected_grid type for pieces 0 and 2
+    /*
+    for (rowIndex = numberOfRows-4 ; rowIndex < numberOfRows ; rowIndex++) {
+        pos.rowIndex = rowIndex;
+        for (columnIndex = 2 ; columnIndex < 5 ; columnIndex++) {
+            pos.columnIndex = columnIndex;
+            grid_set_cell(expected_grid, pos, TETROMINO_SRS_J);
+        }
+    }
+
+    // Expected expected_grid type for pieces 1 and 3
+    PositionInGrid pos;
+    Grid* expected_grid = grid_new(numberOfRows, numberOfColumns);
+    for (rowIndex = numberOfRows-4 ; rowIndex < numberOfRows ; rowIndex++) {
+        pos.rowIndex = rowIndex;
+        for (columnIndex = 0 ; columnIndex < 3 ; columnIndex++) {
+            pos.columnIndex = columnIndex;
+            grid_set_cell(expected_grid, pos, TETROMINO_SRS_L);
+        }
+    }
+    */
+
+    CU_ASSERT_TRUE( sameGrids(game->grid, expected_grid) );
 
     tetris_game_destroy(game);
 }
@@ -526,7 +587,7 @@ int main()
 
    /* Create functional test suite */
    ADD_SUITE_TO_REGISTRY(suiteFunctional)
-   ADD_TEST_TO_SUITE(suiteFunctional, testRealGame)
+   ADD_TEST_TO_SUITE(suiteFunctional, stackSomePieces)
 
    /* Run all tests using the CUnit Basic interface */
    CU_basic_set_mode(CU_BRM_VERBOSE);
