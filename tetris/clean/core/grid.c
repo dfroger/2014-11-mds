@@ -128,3 +128,43 @@ bool tetris_grid_sameGrids(Grid const * const left, Grid const * const right)
     }
     return true;
 }
+
+void tetris_grid_print(Grid const * const grid)
+{
+    PositionInGrid pos;
+    unsigned int rowIndex;
+    unsigned int columnIndex;
+    TetrominoType type;
+
+    char* symbols[] = {"I","O","T","S","Z","J","L"};
+
+    // Print top matrix border.
+    printf("+");
+    for (columnIndex = 1 ; columnIndex < grid->numberOfColumns+1 ; columnIndex++) {
+        printf("-");
+    }
+    printf("+\n");
+
+    // Print left matrix border, matrix type values, matrix right border.
+    for (rowIndex = 0 ; rowIndex < grid->numberOfRows ; rowIndex++) {
+        pos.rowIndex = rowIndex;
+        printf("|");
+        for (columnIndex = 0 ; columnIndex < grid->numberOfColumns ; columnIndex++) {
+            pos.columnIndex = columnIndex;
+            type = tetris_grid_get_cell(grid, pos);
+            if (type == TETROMINO_VOID) {
+                printf(" ");
+            } else {
+                printf(symbols[type]);
+            }
+        }
+        printf("|\n");
+    }
+
+    // Print bottom matrix border.
+    printf("+");
+    for (columnIndex = 1 ; columnIndex < grid->numberOfColumns+1 ; columnIndex++) {
+        printf("-");
+    }
+    printf("+\n");
+}

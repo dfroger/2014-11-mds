@@ -27,4 +27,6 @@ bool tetris_grid_canSetCellsWithPiece(Grid* grid, Piece* piece);
 
 bool tetris_grid_sameGrids(Grid const * const left, Grid const * const right);
 
+void tetris_grid_print(Grid const * const grid);
+
 #endif
