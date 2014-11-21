@@ -15,6 +15,7 @@ typedef struct {
   GtkWidget* verticalBox;
   GtkWidget* horizontalBox;
   GtkWidget* matrix;
+  GtkWidget* preview;
 } TetrisWindow;
 
 TetrisWindow* tetris_window_new(size_t numberOfRows,size_t numberOfColumns);
