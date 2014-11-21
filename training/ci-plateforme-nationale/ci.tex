@@ -1,0 +1,575 @@
+\documentclass[slideopt,A4,handout]{beamer}
+
+\usepackage[latin1]{inputenc}
+\usepackage[french]{babel}
+\usepackage{eso-pic}
+\usepackage{monster2e}
+\usepackage{tikz}
+\usepackage{layout}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
+\usepackage{fancybox}
+\usepackage{graphicx}
+\usepackage[absolute,showboxes,overlay]{textpos}
+
+\usetheme{default}
+\useoutertheme{infolines}
+
+\TPshowboxesfalse
+\textblockorigin{0mm}{0mm}
+
+\definecolor{rouge2}{RGB}{230,68,57}  % red S
+
+\setbeamertemplate{navigation symbols}{}
+
+\renewcommand{\sfdefault}{lmss}
+\sffamily
+
+\setbeamersize{text margin left=1cm,text margin right=1cm}
+
+%--------------------
+\newcommand{\chapterslide}[3]{
+
+\setbeamertemplate{background canvas}{\includegraphics[width=\paperwidth,height=\paperheight]{#3}} 
+
+\setbeamertemplate{footline}{
+\hspace{2cm} 
+\raisebox{2.5ex}
+  {{SED Rocquencourt - Intégration continue}}\hfill 
+  \raisebox{2.5ex}
+  {{\today - \insertframenumber \hspace{5mm} \null }}}
+
+\begin{frame}
+
+\begin{textblock*}{7cm}(13mm,40mm)
+{\textcolor{white} {
+{\monster #1}\\[2mm]
+   { \huge #2}\\[3mm]
+     %{\Large Sous-titre facultatif}
+     }
+	}
+	\end{textblock*}
+
+\vspace*{-4pt}
+\end{frame}
+}
+%--------------------
+
+%--------------------
+\newcommand{\chapterslidesub}[4]{
+
+\setbeamertemplate{background canvas}{\includegraphics[width=\paperwidth,height=\paperheight]{#4}} 
+
+\setbeamertemplate{footline}{
+\hspace{2cm} 
+\raisebox{2.5ex}
+  {{SED Rocquencourt - Intégration continue}}\hfill 
+  \raisebox{2.5ex}
+  {{\today - \insertframenumber \hspace{5mm} \null }}}
+
+\begin{frame}
+
+\begin{textblock*}{7cm}(13mm,40mm)
+{\textcolor{white} {
+{\monster #1}\\[2mm]
+   { \huge #2}\\[3mm]
+     {\Large #3}
+     }
+	}
+	\end{textblock*}
+
+\vspace*{-4pt}
+\end{frame}
+}
+%--------------------
+
+%--------------------
+\newcommand{\contentslide}[1]{
+\setbeamertemplate{background canvas}{\includegraphics[width=\paperwidth,height=\paperheight]{#1}}
+\setbeamertemplate{footline}{
+\hspace{2cm} 
+\raisebox{2.5ex}
+  {\textcolor{white}{SED Rocquencourt - Intégration continue}}\hfill 
+  \raisebox{2.5ex}
+  {\textcolor{white}{\today - \insertframenumber \hspace{5mm} \null }}}
+}
+%--------------------
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%% Page de garde
+
+\setbeamertemplate{background canvas}{\includegraphics[width=\paperwidth,height=\paperheight]{ta+contretab-sc-fr}} 
+\setbeamertemplate{footline}{\hspace{5em} \textcolor{white} {\null \hfill\today}\hspace{2em}\null \vspace*{3pt}}
+
+
+\begin{frame}
+
+\begin{textblock*}{7cm}(13mm,50mm)
+{\textcolor{white} {
+{\huge Intégration continue}\\[2mm]
+   %{ 
+    %%\huge 2 LIGNES MAXIMUM
+    %}\\[3mm]
+   	{\Large Présentation de la plate-forme nationale d'INRIA}}
+	}
+	\end{textblock*}
+
+
+   \begin{textblock*}{40mm}[0,0](10mm,76mm)
+  \begin{picture}(5,80)
+
+\put(20,43){\tiny \textcolor{rouge2}{SED Rocquencourt}}
+\put(20,34){\tiny \textcolor{rouge2}{David Froger}}
+\end{picture}
+\end{textblock*}
+
+\vspace*{-4pt}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% Introduction
+
+
+\setbeamertemplate{background canvas}{\includegraphics[width=\paperwidth,height=\paperheight]{fondrouge}} 
+\setbeamertemplate{footline}{
+\hspace{2cm} 
+\raisebox{2.5ex}
+  {\textcolor{white}{SED Rocquencourt - Intégration continue}}\hfill 
+  \raisebox{2.5ex}
+  {\textcolor{white}{\today - \insertframenumber \hspace{5mm} \null }}}
+
+
+\begin{frame}
+
+
+\begin{textblock*}{10cm}(20mm,10mm)
+\textcolor{white}{\large INTRODUCTION}
+\end{textblock*}
+
+\begin{textblock*}{10cm}(20mm,20mm)
+\textcolor{white} {
+L'intégration continue est un ensemble de pratiques utilisées en génie
+logiciel consistant à vérifier à chaque modification du code source que
+le résultat des modifications ne produit pas de régression dans
+l'application développée. }\\
+
+\vspace{1cm}
+
+\textcolor{white} {
+La plate-forme d'intégration continue d'INRIA est ouverte depuis janvier 2013~: 
+https://ci.inria.fr/
+}
+
+\end{textblock*}
+
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% Sommaire
+
+
+\contentslide{basrouge}
+
+\begin{frame}{SOMMAIRE}
+%\begin{textblock*}{10cm}(20mm,10mm)
+%{\large SOMMAIRE}
+\tableofcontents
+%\end{textblock*}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% Chapitre 1 : IC
+
+\chapterslide{1}{Principes de l'intégration continue}{fondrouge+tab}
+
+
+%%%%%%%%%%%%%%%%%%%%% Serveur SVN
+
+\contentslide{basrouge}
+
+\begin{frame}{Gestionnaire de source nécessaire.}
+\section{Principes de l'intégration continue}
+
+\begin{columns}
+
+  \begin{column}{6cm}
+    \begin{center}
+      \includegraphics[height=6cm]{images/ic}
+    \end{center}
+  \end{column}
+
+  \begin{column}{5cm}
+    \begin{itemize}
+      \item Équipe travaille avec un gestionnaire de code source.
+      \item On veut lancer une suite de test à chaque commit.
+      \item L'intégration continue va de paire avec un gestionnaire de 
+        code source.
+    \end{itemize}
+  \end{column}
+
+\end{columns}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%% Serveur IC image
+
+\begin{frame}{Serveur d'intégration continue}
+
+    \begin{center}
+      \includegraphics[height=6cm]{images/ic-full}
+    \end{center}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%% Serveur IC explications
+
+\begin{frame}{Serveur d'intégration continue}
+
+  \begin{itemize}
+    \item Le serveur d'intégration lance la suite de test à chaque commit.
+    \item Les tests sont effectués sur les esclaves.
+    \item Le serveur d'intégration continue publie les résultats, envoie des
+      emails, des notifications\ldots
+  \end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%% Préparer son code source
+
+\begin{frame}{Préparer son code source}
+
+  \begin{itemize}
+    \item Procédure d'installation automatique et reproductible.
+    \item Système de build efficace.
+    \item Suite de tests facile à exécuter.
+    \item Comitter fréquemment.
+    \item Le dépôts doit contenir tous les scripts de builds, tests\ldots
+  \end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%% Comm SVN IC
+
+\begin{frame}{Identification sur le serveur SVN}
+
+  \begin{itemize}
+    \item Créer un utilisateur SVN sans droit d'écriture.
+    \item Clef SSH sans passphrase.
+    \item Scruter régulièrement le dépôt SVN.
+    \item Ou, script de post-commit.
+    \item Développement distribué?
+  \end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%% Comm SVN IC
+
+\begin{frame}{Esclaves}
+
+  \begin{itemize}
+    \item Différents architectures matérielles.
+    \item Différents systèmes d'exploitation.
+    \item Différentes bibliothèques.
+  \end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%% Build
+
+\begin{frame}{Build}
+
+  \begin{itemize}
+    \item Incrémental à chaque commit.
+    \item Complet chaque nuit.
+  \end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%% Tests
+
+\begin{frame}{Tests}
+
+  \begin{itemize}
+    \item Tests plus ou moins facile à écrire selon l'application.
+    \item Doivent être faciles à lancer.
+    \item Doivent s'exécuter rapidement.
+  \end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%% Buts
+
+\begin{frame}{Buts possibles de l'intégration continue}
+
+  \begin{itemize}
+    \item Corriger les bugs de régressions immédiatement.
+    \item Exemple d'utilisation de l'application toujours fonctionnels.
+    \item Élimination des warnings.
+    \item Vérification des conventions de codage.
+    \item Publier des packages.
+  \end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%% Stratégies
+
+\begin{frame}{Stratégie d'alertes}
+
+  \begin{itemize}
+    \item Mail ou notifications?
+    \item Accepter ou rejeter un commit?
+    \item Prévenir l'auteur du commit ou tout le monde?
+  \end{itemize}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% Chapitre 2 : Jenkins
+
+\chapterslidesub{2}{Jenkins}{Outil d'intégration continue}{fondbleu}
+
+\contentslide{basbleu}
+
+\begin{frame}{Jenkins}
+
+  \section{Jenkins}
+
+  \begin{itemize}
+    \item Vient du monde Java.
+    \item Grande communauté, simple d'utilisation.
+    \item Grand nombre de plugins.
+    \item Se configure dans le navigateur Web.
+  \end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%% conf
+
+\begin{frame}{Configuration d'un job}
+
+    \begin{center}
+      \includegraphics[height=6cm]{images/jenkins-conf}
+    \end{center}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%% dashboard
+
+\begin{frame}{Dashboard}
+
+    \begin{center}
+      \includegraphics[height=6cm]{images/jenkins-dashboard}
+    \end{center}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%% error
+
+\begin{frame}{Sortie d'une erreur}
+
+    \begin{center}
+      \includegraphics[height=6cm]{images/jenkins-error}
+    \end{center}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%% timeline
+
+\begin{frame}{Timeline}
+
+    \begin{center}
+      \includegraphics[height=6cm]{images/jenkins-timeline}
+    \end{center}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%% matrix
+
+\begin{frame}{Timeline}
+
+    \begin{center}
+      \includegraphics[height=6cm]{images/android_matrix-result}
+    \end{center}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% Chapitre 3 : CloudStack
+
+\chapterslidesub{3}{CloudStack}{Outil déploiement de machines virtuelles}{fondvert}
+
+\contentslide{basvert}
+
+\begin{frame}{CloudStack}
+
+  \section{CloudStack}
+
+  \begin{itemize}
+    \item Infrastructure as a Service (IaaS)
+    \item Déployer et administrer un réseau important de machines virtuelles.
+    \item Créer des machines virtuelles, choix du système, des ressources.
+    \item Template.
+    \item Snapshot.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{CloudStack}
+
+    \begin{center}
+      \includegraphics[height=6cm]{images/cloudstack}
+    \end{center}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% Chapitre 4 : plate-forme
+
+\chapterslidesub{4}{Plate-forme INRIA}{Fonctionnement et communauté}{fondviolet}
+
+\contentslide{basviolet}
+
+
+%%%%%%%%%%%%%%%%%%%%% objectif
+
+\begin{frame}{Objectif}
+
+  \begin{itemize}
+    \item Offrir aux scientifiques les outils qui facilitent leur
+      développement et améliorent la qualité de leur logiciel.
+    \item Détecter les problèmes dans un logiciel très tôt.
+  \end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%% plate forme
+
+\begin{frame}{CloudStack}
+
+  \section{Plate-forme INRIA}
+
+    \begin{center}
+      \includegraphics[height=6cm]{images/ciinria}
+    \end{center}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%% ci.inria.fr
+
+\begin{frame}{Portail Web: ci.inria.fr}
+
+  \begin{itemize}
+    \item Inscription des utilisateurs et des projets.
+    \item Administration du projet.
+    \item Hébergement de Jenkins.
+    \item Documentation.
+  \end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%% ferme de compilation
+
+\begin{frame}{Ferme de compilation}
+
+  \begin{itemize}
+    \item Esclaves exécutent les jobs lancés par Jenkins~: compilation, tests,
+      génération de documentation\ldots
+    \item Machines virtuelles affectées à 1 projet.
+    \item Offre visée~: GNU/Linux, Windows, Mac, 32/64 bits.
+  \end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%% qualification
+
+\begin{frame}{Mécanisme qualification $\rightarrow$ production}
+
+  \begin{itemize}
+    \item Jenkins de production.
+    \item Copie production $\rightarrow$ qualification.
+    \item Mise à jour de Jenkins / plugins, changement dans la configuration
+      sur le Jenkins de qualification.
+    \item Test du Jenkins de qualification.
+    \item Copie qualification $\rightarrow$ production.
+    \item Possibilité de restaurer la version production précédente.
+  \end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%% genèse 
+
+\begin{frame}{Genèse du projet}
+
+  \begin{itemize}
+    \item ADT Galaxy 6 EPI sur 5 sites, intégration de briques logicielles
+    \item Demande des autres EPI lilloises
+    \item Travail conjoint SED-SIC (C.Demarey et J. Garet)
+    \item Machines virtuelles affectées à 1 projet.
+    \item Offre visée~: GNU/Linux, Windows, Mac, 32/64 bits.
+  \end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%% genèse 
+
+\begin{frame}{Projet du service d'intégration continue}
+
+  \begin{itemize}
+    \item Collaboration D2T/SED et DSI/SESI.
+    \item Lancement effectif du projet octobre 2011.
+    \item Ouverture en bêta octobre 2012.
+    \item Ouverture générale janvier 2013.
+  \end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%% orga 
+
+\begin{frame}{Organisation autour du service}
+
+  \begin{itemize}
+    \item Comité de pilotage~: 
+      \begin{itemize}
+        \item rôle~: direction de projet et garant de la qualité du service et
+          de son évolution.
+        \item composition~: responsable D2T, responsable SED, 3 scientifiques.
+      \end{itemize}
+    \item Équipe de développement~:
+      \begin{itemize}
+        \item chef de projet (C. Demarey), chef infrastructure (J. Garet) + 2 IJD
+      \end{itemize}
+    \item Équipe de support:
+      \begin{itemize}
+        \item coté SED~: 1 responsable opérationnel (E. Jeanvoine) + 8
+          ingénieur SED (un par centre)
+      \end{itemize}
+      \begin{itemize}
+        \item coté SESI~: l'équipe d'exploitation du SESI
+      \end{itemize}
+  \end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%% communauté 
+
+
+\begin{frame}{Communauté}
+  \begin{itemize}
+    \item Documentation : https://wiki.inria.fr/ciportal/Accueil
+    \item Liste de diffusion :
+      \begin{itemize}
+        \item Annonces : ci-announces@inria.fr
+        \item Partage d'expérience : ci-community@inria.fr
+        \item Domande d'aide : ci-support@inria.fr
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}{}
+  \begin{center}
+    Démonstration
+  \end{center}
+\end{frame}
+
+
+\end{document}
