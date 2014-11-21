@@ -337,40 +337,32 @@ void TestGridCanSetCellsWithPiece()
     CU_ASSERT_FALSE( tetris_grid_canSetCellsWithPiece(grid, &piece8) )
 }
 
-/*
-void test_set_row_to_zero()
+void test_grid_is_last_row_complete()
 {
-  size_t columnIndex;
-  set_row_to_zero(random_row_index);
-  for ( columnIndex = 0; columnIndex < NUMBER_OF_COLUMNS; ++columnIndex )
-    CU_ASSERT( game.grid[random_row_index][columnIndex] == ZERO )
-  
-}
+    // Create a grid.
+    unsigned int numberOfRows = 4;
+    unsigned int numberOfColumns = 4;
+    Grid* grid = tetris_grid_new(numberOfRows, numberOfColumns);
 
-void test_set_grid_to_zero()
-{
-  int row_index, column_index;
+    // Last row is void only.
+    CU_ASSERT_FALSE( tetris_is_last_row_complete(grid) );
 
-  set_grid_to_zero();
-
-  for ( row_index = 0; row_index < NUMBER_OF_ROWS; ++row_index ) {
-    for ( column_index = 0; column_index < NUMBER_OF_COLUMNS;
-                             ++column_index ) {
-      CU_ASSERT( game.grid[row_index][column_index] == ZERO );
+    // Last row is full.
+    PositionInGrid pos;
+    unsigned int columnIndex;
+    pos.rowIndex = numberOfRows-1 ;
+    for (columnIndex = 0 ; columnIndex < grid->numberOfColumns ; columnIndex++) {
+        pos.columnIndex = columnIndex;
+        tetris_grid_set_cell(grid, pos, TETROMINO_SRS_I);
     }
-  }
+    CU_ASSERT_TRUE( tetris_is_last_row_complete(grid) );
+
+    // Last row is full except last element. 
+    pos.rowIndex = numberOfRows-1 ;
+    pos.columnIndex = numberOfColumns-1 ;
+    tetris_grid_set_cell(grid, pos, TETROMINO_VOID);
+    CU_ASSERT_FALSE( tetris_is_last_row_complete(grid) );
 }
-
-void testSamePositionsInGrid()
-{
-  PositionInGrid left = {5,4};
-  PositionInGrid right = {1,2};
-  CU_ASSERT_TRUE( samePositionsInGrid(left,left) );
-  CU_ASSERT_FALSE( samePositionsInGrid(left,right) );
-
-}
-*/
-
 
 //////////////////////////////////////////////////////////////////////////////
 // Tetrominos suite tests

@@ -168,3 +168,23 @@ void tetris_grid_print(Grid const * const grid)
     }
     printf("+\n");
 }
+
+bool tetris_is_last_row_complete(Grid const * const grid)
+{
+    unsigned int rowIndex;
+    unsigned int columnIndex;
+
+    PositionInGrid pos;
+    pos.rowIndex = grid->numberOfRows - 1;
+
+    TetrominoType type;
+
+    for (columnIndex = 0 ; columnIndex < grid->numberOfColumns ; columnIndex++) {
+        pos.columnIndex = columnIndex;
+        type = tetris_grid_get_cell(grid, pos);
+        if (type == TETROMINO_VOID)
+            return false;
+    }
+
+    return true;
+}

@@ -29,4 +29,6 @@ bool tetris_grid_sameGrids(Grid const * const left, Grid const * const right);
 
 void tetris_grid_print(Grid const * const grid);
 
+bool tetris_is_last_row_complete(Grid const * const grid);
+
 #endif
