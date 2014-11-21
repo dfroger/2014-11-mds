@@ -6,6 +6,8 @@
 
 #include "tetromino.h"
 
+#include <malloc.h>
+
 #define SPACE_DIMENSION 2
 
 typedef struct piece Piece;
@@ -15,6 +17,9 @@ struct piece
   Tetromino tetromino;
   size_t angle;
 };
+
+Piece* tetris_piece_new();
+void tetris_piece_destroy();
 
 void pieceMoveToLeft(Piece* toBeMoved);
 void pieceMoveToRight(Piece* toBeMoved);
