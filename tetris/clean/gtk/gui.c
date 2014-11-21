@@ -30,6 +30,32 @@ gint on_timeout_event(gpointer data)
   return 0;
 }
 
+gboolean on_preview_expose_event(GtkWidget* preview,GdkEventExpose* event, TetrisGUI* gui)
+{
+  cairo_t* cr = gdk_cairo_create(preview->window);
+
+  size_t rowIndex, columnIndex;
+
+  for ( rowIndex = 0; rowIndex < TETROMINO_NUMBER_OF_SQUARES; ++rowIndex )
+  {
+    for ( columnIndex = 0; columnIndex < TETROMINO_NUMBER_OF_SQUARES; ++columnIndex)
+    {
+      fill_cell(cr,WHITE,rowIndex,columnIndex);
+    }
+  }
+
+  size_t squareIndex;
+  PositionInGrid* position = gui->game->piece->tetromino.allRotations[ANGLE_0];
+  for (squareIndex=0;squareIndex<TETROMINO_NUMBER_OF_SQUARES;++squareIndex)
+  {
+    rowIndex = position[squareIndex].rowIndex;
+    columnIndex = position[squareIndex].columnIndex;
+    fill_cell(cr,gui->game->piece->tetromino.color,rowIndex,columnIndex);
+  }
+
+  return TRUE;
+}
+
 gboolean on_matrix_expose_event(GtkWidget *matrix,GdkEventExpose *event, TetrisGUI* gui)
 {
   cairo_t* cr = gdk_cairo_create(matrix->window);
@@ -90,18 +116,33 @@ gboolean on_key_press_event(GtkWidget *window,
   return TRUE;
 }
 
-TetrisGUI* tetris_gui_new()
+gboolean button_newgame_clicked(GtkWidget *widget, TetrisGUI* gui) {
+  size_t numberOfRows = gui->game->grid->numberOfRows;
+  size_t numberOfColumns = gui->game->grid->numberOfColumns;
+  tetris_game_destroy(gui->game);
+  gui->game = tetris_game_new(numberOfRows,numberOfColumns);
+  return TRUE;
+}
+
+gboolean button_pause_clicked(GtkWidget *widget, TetrisGUI* gui) {
+  if (gui->game->status == GAME_ON)
+    gui->game->status = GAME_PAUSED;
+  else if (gui->game->status == GAME_PAUSED)
+    gui->game->status = GAME_ON;
+  return TRUE;
+}
+
+TetrisGUI* tetris_gui_new(size_t numberOfRows, size_t numberOfColumns)
 {
 
-  unsigned int numberOfRows = 20;
-  unsigned int numberOfColumns = 10;
-  
   TetrisGUI* gui = (TetrisGUI*)malloc(sizeof(TetrisGUI));
 
   gui->game = tetris_game_new(numberOfRows,numberOfColumns);
 
   gui->window = tetris_window_new(numberOfRows,numberOfColumns);
   
+  g_signal_connect(gui->window->newGameButton, "clicked", G_CALLBACK(button_newgame_clicked), gui);
+  g_signal_connect(gui->window->pauseButton, "clicked", G_CALLBACK(button_pause_clicked), gui);
 
   tetris_window_show(gui->window);
   g_timeout_add(500,on_timeout_event,(gpointer)gui);
