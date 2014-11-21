@@ -14,5 +14,5 @@ mkdir build_test
 cd build_test
 cmake -DCMAKE_BUILD_TYPE=TEST ..
 make
-make test
+CTEST_OUTPUT_ON_FAILURE=TRUE make test
 ./gtk/tetris-gtk
