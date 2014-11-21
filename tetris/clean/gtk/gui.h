@@ -7,13 +7,15 @@
 
 typedef struct
 {
-  GtkWidget* base;
-
   TetrisWindow* window;
   Game* game;
 } TetrisGUI;
 
 TetrisGUI* tetris_gui_new();
 void tetris_gui_destroy(TetrisGUI* gui);
+gboolean on_key_press_event(GtkWidget *window,
+                            GdkEventKey *event,
+                            TetrisGUI* gui);
+gboolean on_matrix_expose_event(GtkWidget *matrix, GdkEventExpose *event, TetrisGUI* gui);
 
 #endif

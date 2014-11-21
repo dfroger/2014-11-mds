@@ -22,18 +22,16 @@ void fill_cell(cairo_t *cr, RGBColor color, unsigned i, unsigned j)
 
 gint on_timeout_event(gpointer data)
 {
-  TetrisGUI* self = data;
+  TetrisGUI* self = (TetrisGUI*)data;
   if (! gameTryToMoveBottom(self->game) )
     gameNewPiece(self->game);
   tetris_window_refresh(self->window);
-  g_timeout_add(500,on_timeout_event,self);
+  g_timeout_add(500,on_timeout_event,(gpointer)self);
   return 0;
 }
 
-gboolean on_matrix_expose_event(GtkWidget *matrix, gpointer data)
+gboolean on_matrix_expose_event(GtkWidget *matrix,GdkEventExpose *event, TetrisGUI* gui)
 {
-  TetrisGUI* gui = data;
-
   cairo_t* cr = gdk_cairo_create(matrix->window);
 
   Grid* grid = gui->game->grid;
@@ -59,10 +57,8 @@ gboolean on_matrix_expose_event(GtkWidget *matrix, gpointer data)
 
 gboolean on_key_press_event(GtkWidget *window,
                             GdkEventKey *event,
-                            gpointer data)
+                            TetrisGUI* gui)
 {
-
-  TetrisGUI* gui = data;
 
   switch (event->keyval) {
   case GDK_Left:
@@ -96,19 +92,19 @@ gboolean on_key_press_event(GtkWidget *window,
 
 TetrisGUI* tetris_gui_new()
 {
+
   unsigned int numberOfRows = 20;
   unsigned int numberOfColumns = 10;
   
   TetrisGUI* gui = (TetrisGUI*)malloc(sizeof(TetrisGUI));
 
-  gui->window = tetris_window_new(numberOfRows,numberOfColumns);
-  g_signal_connect(G_OBJECT(gui->window->base), "key_press_event", G_CALLBACK(on_key_press_event), gui);
-  g_signal_connect(G_OBJECT(gui->window->matrix), "expose_event", G_CALLBACK(on_matrix_expose_event), gui);
-  
   gui->game = tetris_game_new(numberOfRows,numberOfColumns);
 
+  gui->window = tetris_window_new(numberOfRows,numberOfColumns);
+  
+
   tetris_window_show(gui->window);
-  g_timeout_add(500,on_timeout_event,gui->window);
+  g_timeout_add(500,on_timeout_event,(gpointer)gui);
 
   return gui;
 }
